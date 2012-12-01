@@ -1,0 +1,99 @@
+{
+	"name": "Article",
+	"properties": {
+		"title": {
+			"type": "string",
+			"required": true
+		},
+		"body": {
+			"type": "object",
+			"required": true,
+			"properties": {
+				"headings": {
+					"type": "array",
+					"description": "The section headings and subheadings",
+					"items": {
+						"type": "string"
+					}
+				},
+				"text": {
+					"type": "string",
+					"description": "The actual text (not headers, captions, etc) of the article",
+					"required": true
+				},
+				"length": {
+					"type": "number",
+					"minimum": 0,
+					"description": "The length of the text of the article",
+					"required": true
+				}
+			}
+		},
+		"links": {
+			"type": "array",
+			"description": "List of article titles that this article links to",
+			"items": {
+				"type": "string"
+			},
+			"required": true
+		},
+		"is_current_event": {
+			"type": "boolean"
+		},
+		"edits": {
+			"type": "object",
+			"description": "Edit statistics and numbers",
+			"required": true,
+			"properties": {
+				"total": {
+					"type": "number",
+					"description": "Total number of edits",
+					"minimum": 0,
+					"required": true
+				},
+				"anonymous": {
+					"type": "number",
+					"minimum": 0,
+					"required": true
+				},
+				"top_10_percent": {
+					"type": "number",
+					"minimum": 0,
+					"required": true
+				},
+				"frequency": {
+					"type": "number",
+					"description": "Average frequency of an edit in days",
+					"minimum": 0,
+					"required": true
+				}
+			}
+		},
+		//NOTE: Age is not accurate: see United States
+		"age": {
+			"type": "number",
+			"description": "The number of days the article has been maintained",
+			"minimum": 0,
+			"required": true
+		},
+		"top_editors": {
+			"type": "array",
+			"description": "List of usernames of top editors and their number of edits of this article",
+			"items": {
+				"type": "object",
+				"properties": {
+					"username": {
+						"type":"string",
+						"required": true
+					},
+					"num_edits": {
+						"type":"number",
+						"minimum": 0,
+						"required": true
+					}
+				}
+			},
+			"required": true
+		}
+	}
+}
