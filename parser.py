@@ -29,14 +29,9 @@ def parser():
   write_links_to_json(json_file, links)
   json_file.write(',\n  ')
 
-  json_file.write('"edits" : ')
-
-
   json_file.write('}')
 
-
   json_file.close()
-
   wiki_file.close()
 
 def write_links_to_json(json_file, links):
