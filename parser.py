@@ -36,6 +36,9 @@ def parser():
 
   edits_file = open('index.html?a=' + filepath)
   edits_lines = edits_file.readlines()
+
+  parseEdits(edits_lines, json_file) 
+
   most_frequent_users = find_most_frequent_users(edits_lines)
   write_users_to_json(json_file, most_frequent_users)
 
@@ -43,6 +46,41 @@ def parser():
 
   json_file.close()
   wiki_file.close()
+
+
+def parseEdits(edits_lines, json_file): 
+
+  json_file.write('\n  "edits" : {\n')
+  edits_line = ""
+  cont = 0
+
+  for index, line in enumerate(edits_lines): 
+    obj = re.search('<h2>[0-9]+ edits on article.*', line)
+    if obj != None: 
+      edits_line = line
+      cont = index
+      break
+
+  startIndex = edits_line.find('<h2>') + 4
+  endIndex = edits_line.find('edits')
+
+  numEdits = edits_line[startIndex : endIndex]
+  json_file.write('     "total" : ' + numEdits + '\n')
+
+  for line in edits_lines[cont : len(edits_lines)]: 
+    obj = re.search('<li>Anonymous user edited [0-9]+ times</li>', line)
+    if obj != None: 
+      edits_line = line
+      break
+
+  startIndex = edits_line.find('edited')
+  endIndex = edits_line.find('times')
+
+  anon_edits = edits_line[(startIndex + 7) : endIndex]
+  #print(anon_edits)
+
+
+  json_file.write('  }')  
 """
 Arguments: 
 1) lines - list of strings from the file

@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>WikiChecker - Article:Elephant - Wikipedia</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<meta name="description" content="Analyze articles of en.wikipedia." />
+<meta name="keywords" content="wikipedia, statistics, article, edit" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Cache-Control" content="no-cache" /> 
+<meta http-equiv="Expires" content="0" />
+<link rel="stylesheet" type="text/css" href="http://www.wikichecker.com/style/wiki.css" />
+
+<link rel="start" href="http://en.wikichecker.com/" />
+<script type="text/javascript" language="javascript">
+<!--
+function showhide(id){
+	if(document.getElementById(id).style.display == "none"){
+		document.getElementById(id).style.display = "block";
+	}
+	else{
+		document.getElementById(id).style.display = "none";
+	}
+}
+//-->
+</script>
+</head>
+<body><div id="container">
+<a name="top" id="top"></a><div align="center" style="font-size: 90%;" ><a href="http://en.wikichecker.com" >Home</a> | <a href="http://en.wikichecker.com/user/" >User</a> | <a href="http://en.wikichecker.com/article/" >Article</a> | <a href="http://en.wikichecker.com/current/" >Current</a> | <a href="http://en.wikichecker.com/editwar/?s=10800" >Editwar</a> | 
+<a href="http://en.wikichecker.com/media/" >Media</a> | 
+<a href="http://en.wikichecker.com/about/" >About this site</a>
+</div>
+<div style="text-align:right;font-size: 90%;">
+<span style="font-size:120%;"><a href="http://www.wikichecker.com/religion/" >Religions of Wikipedians</a></span><br /><a href="http://ajaxsb.wikichecker.com/" >Simple MediaWiki Sandbox</a><br /><a href="http://www.wikichecker.com/editrate/">Edit rates comparison</a><br /><a href="http://ja.wikichecker.com/">Japanese version</a><br /><span style="color:red;">Nouveau:</span> <a href="http://fr.wikichecker.com/">French version</a><br /><a href="http://ru.wikichecker.com/">Russian version</a></div>
+<h1 class="firstHeading">en.WikiChecker/article&nbsp;<small><small>beta</small></small></h1>
+<p>Analyze how and by who articles of <a href="http://en.wikipedia.org/" target="_blank" class="external text" >en.wikipedia</a> have been edited.</p>
+<blockquote class="toccolours" style="float:none; padding: 10px 15px 10px 15px;" >
+<form method="get" action="./" >
+Article title: <input type="text" maxlength="256" size="24" name="a" value="Elephant" style="vertical-align: bottom;" />
+ <input type="submit" value="Submit" style="vertical-align: bottom;" /></form><br />
+Be careful to input the exact title of article.<br />
+The process may take secondes if the article has long history. Edits by bot and page moves will not be traced.
+</blockquote>
+<div id="loading_0" style="display:block;">
+Loading data...<br />
+</div>
+<script type="text/javascript">
+showhide('loading_0')
+</script>
+<h2>494 edits on article: <a href="http://en.wikipedia.org/wiki/Elephant" target="_blank" class="external text"  rel="nofollow" >Elephant</a></h2>
+<dl><dd><ul>
+<li>The 1st edition of the actual version: 1:22:52 27/10/2012 - The latest: 20:15:06 25/11/2012 (UTC)</li>
+<li>Maintained 30 days</li>
+<li>One edit par 0.1 days (1.4 hours) on average.</li>
+<li>Number of editors: 18</li>
+<li>Anonymous user edited 0 times</li>
+<li>Edit count of the top 10% frequent users: 415<!--（84.0％）--></li>
+</ul></dd></dl>
+<br />
+<img src="http://chart.apis.google.com/chart?cht=p3&amp;chts=000000,10&amp;chs=350x75&amp;chl=Edit by 10% (84.0%)|Edit by others (16%)&amp;chd=t:84.0,16&amp;chco=eeeeee,bbbbbb" alt="edit status" width="350px" height="75px"/>
+<img src="http://chart.apis.google.com/chart?cht=p3&amp;chts=000000,10&amp;chs=350x75&amp;chl=Login edits (100%)|Anon. edits(0.0%)&amp;chd=t:100,0.0&amp;chco=eeeeee,bbbbbb" alt="login-ip" width="350px" height="75px"/>
+<br />
+<h2>Users and related articles</h2>
+<div id="box-left" >
+<h2><small>Frequent users</small></h2>
+<br />
+<dl>
+<dd style="margin-left:1em;"><span style="font-size: 200%;" ><a href="../user/?t=LittleJerry" >LittleJerry</a></span> (362)</dd>
+<dd style="margin-left:1em;"><span style="font-size: 114%;" ><a href="../user/?t=Axl" >Axl</a></span> (53)</dd>
+<dd style="margin-left:1em;"><span style="font-size: 106%;" ><a href="../user/?t=DrChrissy" >DrChrissy</a></span> (21)</dd>
+<dd style="margin-left:1em;"><span style="font-size: 103%;" ><a href="../user/?t=Tdslk" >Tdslk</a></span> (13)</dd>
+<dd style="margin-left:1em;"><span style="font-size: 103%;" ><a href="../user/?t=Sainsf" >Sainsf</a></span> (11)</dd>
+<dd style="margin-left:1em;"><span style="font-size: 102%;" ><a href="../user/?t=Gigemag76" >Gigemag76</a></span> (9)</dd>
+<dd style="margin-left:1em;"><span style="font-size: 102%;" ><a href="../user/?t=Stfg" >Stfg</a></span> (7)</dd>
+<dd style="margin-left:1em;"><span style="font-size: 101%;" ><a href="../user/?t=FunkMonk" >FunkMonk</a></span> (3)</dd>
+<dd style="margin-left:1em;"><span style="font-size: 101%;" ><a href="../user/?t=Smithmm" >Smithmm</a></span> (3)</dd>
+<dd style="margin-left:1em;"><span style="font-size: 101%;" ><a href="../user/?t=Schnäggli" >Schnäggli</a></span> (3)</dd>
+<dd style="margin-left:1em;"><span style="font-size: 100%;" ><a href="../user/?t=Fatbuu1000" >Fatbuu1000</a></span> (2)</dd>
+<dd style="margin-left:1em;"><span style="font-size: 100%;" ><a href="../user/?t=Tiyang" >Tiyang</a></span> (1)</dd>
+<dd style="margin-left:1em;"><span style="font-size: 100%;" ><a href="../user/?t=Mr Stephen" >Mr Stephen</a></span> (1)</dd>
+<dd style="margin-left:1em;"><span style="font-size: 100%;" ><a href="../user/?t=Wikid77" >Wikid77</a></span> (1)</dd>
+<dd style="margin-left:1em;"><span style="font-size: 100%;" ><a href="../user/?t=Mukogodo" >Mukogodo</a></span> (1)</dd>
+<dd style="margin-left:1em;"><span style="font-size: 100%;" ><a href="../user/?t=Alejandrocaro35" >Alejandrocaro35</a></span> (1)</dd>
+<dd style="margin-left:1em;"><span style="font-size: 100%;" ><a href="../user/?t=Mogism" >Mogism</a></span> (1)</dd>
+<dd style="margin-left:1em;"><span style="font-size: 100%;" ><a href="../user/?t=Curtis Clark" >Curtis Clark</a></span> (1)</dd>
+</dl></div>
+<div id="box-right" >
+<h2><small>Frequent users also edit these articles</small></h2>
+<br />
+<dl>
+<div id="loading_1" style="display:block;">
+Loading data...<br />
+</div>
+<script type="text/javascript">
+showhide('loading_1')
+</script>
+<dd style="margin-left:1em;" ><span style="font-size: 200%;" ><a href="./?a=Wikipedia:Peer review/Elephant/archive2" >Wikipedia:Peer review/Elephant/archive2</a></span> [<a href="http://en.wikipedia.org/wiki/Wikipedia:Peer review/Elephant/archive2" target="_blank" class="external text" rel="nofollow" >WP</a>]<!--(92)--></dd>
+<dd style="margin-left:1em;" ><span style="font-size: 187%;" ><a href="./?a=Réunion Ibis" >Réunion Ibis</a></span> [<a href="http://en.wikipedia.org/wiki/Réunion Ibis" target="_blank" class="external text" rel="nofollow" >WP</a>]<!--(82)--></dd>
+<dd style="margin-left:1em;" ><span style="font-size: 176%;" ><a href="./?a=Wikipedia:WikiProject Guild of Copy Editors/Backlog elimination drives/November 2012" >Wikipedia:WikiProject Guild of Copy Editors/Backlog elimination drives/November 2012</a></span> [<a href="http://en.wikipedia.org/wiki/Wikipedia:WikiProject Guild of Copy Editors/Backlog elimination drives/November 2012" target="_blank" class="external text" rel="nofollow" >WP</a>]<!--(74)--></dd>
+<dd style="margin-left:1em;" ><span style="font-size: 157%;" ><a href="./?a=Template:X4" >Template:X4</a></span> [<a href="http://en.wikipedia.org/wiki/Template:X4" target="_blank" class="external text" rel="nofollow" >WP</a>]<!--(60)--></dd>
+<dd style="margin-left:1em;" ><span style="font-size: 147%;" ><a href="./?a=Emil-Edwin Reinert" >Emil-Edwin Reinert</a></span> [<a href="http://en.wikipedia.org/wiki/Emil-Edwin Reinert" target="_blank" class="external text" rel="nofollow" >WP</a>]<!--(52)--></dd>
+<dd style="margin-left:1em;" ><span style="font-size: 140%;" ><a href="./?a=Amphibian" >Amphibian</a></span> [<a href="http://en.wikipedia.org/wiki/Amphibian" target="_blank" class="external text" rel="nofollow" >WP</a>]<!--(47)--></dd>
+<dd style="margin-left:1em;" ><span style="font-size: 128%;" ><a href="./?a=Woolly mammoth" >Woolly mammoth</a></span> [<a href="http://en.wikipedia.org/wiki/Woolly mammoth" target="_blank" class="external text" rel="nofollow" >WP</a>]<!--(38)--></dd>
+<dd style="margin-left:1em;" ><span style="font-size: 125%;" ><a href="./?a=Wikipedia:WikiProject Guild of Copy Editors/Requests" >Wikipedia:WikiProject Guild of Copy Editors/Requests</a></span> [<a href="http://en.wikipedia.org/wiki/Wikipedia:WikiProject Guild of Copy Editors/Requests" target="_blank" class="external text" rel="nofollow" >WP</a>]<!--(36)--></dd>
+<dd style="margin-left:1em;" ><span style="font-size: 116%;" ><a href="./?a=Amanita ceciliae" >Amanita ceciliae</a></span> [<a href="http://en.wikipedia.org/wiki/Amanita ceciliae" target="_blank" class="external text" rel="nofollow" >WP</a>]<!--(29)--></dd>
+<dd style="margin-left:1em;" ><span style="font-size: 116%;" ><a href="./?a=Talk:Elephant" >Talk:Elephant</a></span> [<a href="http://en.wikipedia.org/wiki/Talk:Elephant" target="_blank" class="external text" rel="nofollow" >WP</a>]<!--(29)--></dd>
+<dd style="margin-left:1em;" ><span style="font-size: 115%;" ><a href="./?a=Red Rail" >Red Rail</a></span> [<a href="http://en.wikipedia.org/wiki/Red Rail" target="_blank" class="external text" rel="nofollow" >WP</a>]<!--(28)--></dd>
+<dd style="margin-left:1em;" ><span style="font-size: 112%;" ><a href="./?a=Seismic communication" >Seismic communication</a></span> [<a href="http://en.wikipedia.org/wiki/Seismic communication" target="_blank" class="external text" rel="nofollow" >WP</a>]<!--(26)--></dd>
+<dd style="margin-left:1em;" ><span style="font-size: 111%;" ><a href="./?a=Giant eland" >Giant eland</a></span> [<a href="http://en.wikipedia.org/wiki/Giant eland" target="_blank" class="external text" rel="nofollow" >WP</a>]<!--(25)--></dd>
+<dd style="margin-left:1em;" ><span style="font-size: 107%;" ><a href="./?a=User talk:FunkMonk" >User talk:FunkMonk</a></span> [<a href="http://en.wikipedia.org/wiki/User talk:FunkMonk" target="_blank" class="external text" rel="nofollow" >WP</a>]<!--(22)--></dd>
+<dd style="margin-left:1em;" ><span style="font-size: 104%;" ><a href="./?a=Broad-billed Parrot" >Broad-billed Parrot</a></span> [<a href="http://en.wikipedia.org/wiki/Broad-billed Parrot" target="_blank" class="external text" rel="nofollow" >WP</a>]<!--(20)--></dd>
+<dd style="margin-left:1em;" ><span style="font-size: 104%;" ><a href="./?a=Dromedary" >Dromedary</a></span> [<a href="http://en.wikipedia.org/wiki/Dromedary" target="_blank" class="external text" rel="nofollow" >WP</a>]<!--(20)--></dd>
+<dd style="margin-left:1em;" ><span style="font-size: 103%;" ><a href="./?a=User:DrChrissy/sandbox" >User:DrChrissy/sandbox</a></span> [<a href="http://en.wikipedia.org/wiki/User:DrChrissy/sandbox" target="_blank" class="external text" rel="nofollow" >WP</a>]<!--(19)--></dd>
+<dd style="margin-left:1em;" ><span style="font-size: 103%;" ><a href="./?a=Dust bath" >Dust bath</a></span> [<a href="http://en.wikipedia.org/wiki/Dust bath" target="_blank" class="external text" rel="nofollow" >WP</a>]<!--(19)--></dd>
+<dd style="margin-left:1em;" ><span style="font-size: 101%;" ><a href="./?a=Teide" >Teide</a></span> [<a href="http://en.wikipedia.org/wiki/Teide" target="_blank" class="external text" rel="nofollow" >WP</a>]<!--(18)--></dd>
+<dd style="margin-left:1em;" ><span style="font-size: 100%;" ><a href="./?a=Wikipedia:Village pump (technical)" >Wikipedia:Village pump (technical)</a></span> [<a href="http://en.wikipedia.org/wiki/Wikipedia:Village pump (technical)" target="_blank" class="external text" rel="nofollow" >WP</a>]<!--(17)--></dd>
+</dl></div>
+<br clear='all' />
+<h2>&nbsp;</h2>
+<p>User names and titles of article are linked to analysis on this site.</p>
+<p style='text-align: right;'>
+<small>Tables and diagrams generated on this site are released under GFDL, v. 1.2 or later. Credit: WikiChecker.com.<br/>
+Copyrights of the rest (including the underlying software) are reserved to WikiChecker.com unless otherwise stated.</small></p>
+</div>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-4827159-2");
+pageTracker._initData();
+pageTracker._trackPageview();
+</script></body></html>
