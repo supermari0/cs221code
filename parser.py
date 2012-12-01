@@ -2,7 +2,7 @@ import re, string, sys
 
 """
 Usage: 
-python parser.y <Filename>
+python parser.py <Filename>
 
 """
 
@@ -28,6 +28,9 @@ def parser():
   links = find_links(lines)
   write_links_to_json(json_file, links)
   json_file.write(',\n  ')
+
+  json_file.write('"edits" : ')
+
 
   json_file.write('}')
 

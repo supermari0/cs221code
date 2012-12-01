@@ -1,7 +1,7 @@
 {
 	"name": "Article",
 	"properties": {
-		"title": {
+		"title": { // done
 			"type": "string",
 			"required": true
 		},
@@ -29,16 +29,13 @@
 				}
 			}
 		},
-		"links": { # Mario
+		"links": { //done 
 			"type": "array",
 			"description": "List of article titles that this article links to",
 			"items": {
 				"type": "string"
 			},
 			"required": true
-		},
-		"is_current_event": {
-			"type": "boolean"
 		},
 		"edits": {
 			"type": "object",
