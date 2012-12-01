@@ -2,11 +2,12 @@ import re, string, sys
 
 """
 Usage: 
-python parser.y <Filename>
+python parser.py <Filename>
 
 """
 
 def parser(): 
+
 	print("HELLO")
 	filepath = sys.argv[1]
 	wiki_file = open(filepath)
@@ -27,9 +28,10 @@ def parser():
 	json_file.write('{\n\t')
 	json_file.write('"title" : ' + '"' + title + '",\n')
 
-
+	links = find_links(lines)
+	write_links_to_json(json_file, links)
 	articleTextIndex = parseSectionHeaders(lines, json_file)
-	parseArticleText(lines, json_file, articleTextIndex)
+	#parseArticleText(lines, json_file, articleTextIndex)
 
 	json_file.write('}')
 
@@ -130,5 +132,29 @@ def parseSectionHeaders(lines, json_file):
 
 
 	return contentsEnd + 1
+
+def write_links_to_json(json_file, links):
+	json_file.write('"links" : [')
+	for i in range(len(links)):
+		json_file.write('"')
+		json_file.write(links[i])
+		json_file.write('"')
+		if i != len(links) - 1:
+			json_file.write(',')
+	json_file.write(']')
+
+def find_links(lines):
+	links = []
+	for line in lines:
+		link_obj = re.search('<a href="/wiki/.*" title=".*">', line)
+		if link_obj != None:
+			link = link_obj.group(0)
+			link_obj = re.search('title=".*"', link)
+			link = link_obj.group(0)
+			link_obj = re.search('"[^"]*"', link)
+			link = link_obj.group(0)
+			link = link[1:-1]
+			links.append(link)
+	return links
 
 parser()
