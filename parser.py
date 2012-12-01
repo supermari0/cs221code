@@ -134,7 +134,7 @@ def parseSectionHeaders(lines, json_file):
   return contentsEnd + 1
 
 def write_links_to_json(json_file, links):
-  json_file.write('"links" : [')
+  json_file.write('  "links" : [')
   for i in range(len(links)):
     json_file.write('"')
     json_file.write(links[i])
