@@ -1,5 +1,11 @@
 import re, string, sys 
 
+"""
+Usage: 
+python parser.y <Filename>
+
+"""
+
 def parser(): 
 	print("HELLO")
 	filepath = sys.argv[1]
@@ -18,8 +24,8 @@ def parser():
 
 	json_file = open(json_file_name, 'w') # json file to write to
 
-	json_file.write('{\n')
-
+	json_file.write('{\n\t')
+	json_file.write('"title" : ' + '"' + title + '",\n')
 	json_file.write('}')
 
 
