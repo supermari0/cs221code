@@ -73,7 +73,7 @@
 			"minimum": 0,
 			"required": true
 		},
-		"top_editors": {
+		"top_editors": { // done
 			"type": "array",
 			"description": "List of usernames of top editors and their number of edits of this article",
 			"items": {

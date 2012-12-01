@@ -33,15 +33,16 @@ def parser():
   write_links_to_json(json_file, links)
   #parseArticleText(lines, json_file, articleTextIndex)
 
+
+  edits_file = open('index.html?a=' + filepath)
+  edits_lines = edits_file.readlines()
+  most_frequent_users = find_most_frequent_users(edits_lines)
+  write_users_to_json(json_file, most_frequent_users)
+
   json_file.write('}')
 
   json_file.close()
   wiki_file.close()
-
-  edits_file = open('index.html?a=' + filepath)
-  edits_lines = edits_file.readlines()
-
-
 """
 Arguments: 
 1) lines - list of strings from the file
@@ -142,8 +143,8 @@ def write_links_to_json(json_file, links):
     json_file.write(links[i])
     json_file.write('"')
     if i != len(links) - 1:
-      json_file.write(',')
-  json_file.write(']')
+      json_file.write(',\n  ')
+  json_file.write(']\n  ')
 
 def find_links(lines):
   links = []
@@ -158,5 +159,34 @@ def find_links(lines):
       link = link[1:-1]
       links.append(link)
   return links
+
+def find_most_frequent_users(edits_lines):
+  ''' Given list of lines in edits file, return a list of tuples containing the
+  top users and their respective edit numbers.'''
+  users = []
+  for line in edits_lines:
+    user_obj = re.search('<a href="\.\./user/\?t=.*', line)
+    if user_obj != None:
+      user = user_obj.group(0)
+      user_obj = re.search('>.*</a>.*', user)
+      user_name_and_number = user_obj.group(0)
+      user_name_end = user_name_and_number.find('<')
+      user_name = user_name_and_number[1:user_name_end]
+      user_number_start = user_name_and_number.find('(') + 1
+      user_number_end = user_name_and_number.find(')')
+      user_number = user_name_and_number[user_number_start:user_number_end]
+      users.append((user_name, user_number))
+  return users
+
+def write_users_to_json(json_file, most_frequent_users):
+  json_file.write('"top_editors" : [')
+  for i in range(len(most_frequent_users)):
+    username = most_frequent_users[i][0]
+    num_edits = most_frequent_users[i][1]
+    json_file.write('{ "username" : "' + username + '",')
+    json_file.write('"num_edits" : ' + num_edits + '}')
+    if i != len(most_frequent_users) - 1:
+      json_file.write(',')
+  json_file.write(']')
 
 parser()
