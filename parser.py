@@ -66,7 +66,7 @@ def parseEdits(edits_lines, json_file):
   endIndex = edits_line.find('edits')
 
   numEdits = edits_line[startIndex : endIndex]
-  json_file.write('     "total" : ' + numEdits + '\n')
+  json_file.write('     "total" : ' + numEdits + ',\n')
 
   for line in edits_lines[cont : len(edits_lines)]: 
     obj = re.search('<li>Anonymous user edited [0-9]+ times</li>', line)
@@ -79,6 +79,14 @@ def parseEdits(edits_lines, json_file):
 
   anon_edits = edits_line[(startIndex + 7) : endIndex]
   #print(anon_edits)
+
+  for line in edits_lines:
+    freq_line_obj = re.search('One edit par .* days', line)
+    if freq_line_obj != None:
+      freq_line = freq_line_obj.group(0)
+      frequency_obj = re.search('[0-9]*\.[0-9]*', freq_line)
+      frequency = frequency_obj.group(0)
+      json_file.write('    "frequency" : ' + frequency + ',\n')
 
 
   json_file.write('  }')
@@ -185,7 +193,7 @@ def write_links_to_json(json_file, links):
     json_file.write('"')
     if i != len(links) - 1:
       json_file.write(',\n  ')
-  json_file.write(']\n  ')
+  json_file.write('],\n  ')
 
 def find_links(lines):
   links = []

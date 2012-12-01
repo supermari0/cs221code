@@ -58,7 +58,7 @@
 					"minimum": 0,
 					"required": true
 				},
-				"frequency": {
+				"frequency": { // Mario
 					"type": "number",
 					"description": "Average frequency of an edit in days",
 					"minimum": 0,
