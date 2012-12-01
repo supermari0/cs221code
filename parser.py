@@ -36,8 +36,10 @@ def parser():
   json_file.write('}')
 
   json_file.close()
-
   wiki_file.close()
+
+  edits_file = open('index.html?a=' + filepath)
+  edits_lines = edits_file.readlines()
 
 
 """
