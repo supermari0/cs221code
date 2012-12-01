@@ -29,7 +29,7 @@
 				}
 			}
 		},
-		"links": {
+		"links": { # Mario
 			"type": "array",
 			"description": "List of article titles that this article links to",
 			"items": {
