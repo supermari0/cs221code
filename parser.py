@@ -51,7 +51,7 @@ def parser():
 
 def parseEdits(edits_lines, json_file): 
 
-  json_file.write('\n  "edits" : {\n')
+  json_file.write(',\n  "edits" : {\n')
   edits_line = ""
   cont = 0
 
@@ -78,7 +78,21 @@ def parseEdits(edits_lines, json_file):
   endIndex = edits_line.find('times')
 
   anon_edits = edits_line[(startIndex + 7) : endIndex]
-  #print(anon_edits)
+  json_file.write('    "anonymous" : ' + anon_edits + ',\n')
+
+  for line in edits_lines[cont : len(edits_lines)]: 
+    obj = re.search('<li>Edit count of the top .*', line)
+    if obj != None:
+      edits_line = line
+      break
+
+  startIndex = edits_line.find("users:")
+  edits_line = edits_line[startIndex : len(edits_line)]
+  endIndex = edits_line.find('<')
+  top_10_percent = edits_line[7 : endIndex]
+
+  json_file.write('    "top_10_percent" : ' + top_10_percent + ',\n')
+
 
   for line in edits_lines:
     freq_line_obj = re.search('One edit par .* days', line)
@@ -89,7 +103,7 @@ def parseEdits(edits_lines, json_file):
       json_file.write('    "frequency" : ' + frequency + ',\n')
 
 
-  json_file.write('  }')
+  json_file.write('  }\n')
 
 """
 Arguments: 
