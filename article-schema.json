@@ -1,7 +1,7 @@
 {
 	"name": "Article",
 	"properties": {
-		"title": {
+		"title": { // done
 			"type": "string",
 			"required": true
 		},
@@ -29,16 +29,13 @@
 				}
 			}
 		},
-		"links": {
+		"links": { //done 
 			"type": "array",
 			"description": "List of article titles that this article links to",
 			"items": {
 				"type": "string"
 			},
 			"required": true
-		},
-		"is_current_event": {
-			"type": "boolean"
 		},
 		"edits": {
 			"type": "object",
@@ -76,7 +73,7 @@
 			"minimum": 0,
 			"required": true
 		},
-		"top_editors": {
+		"top_editors": { // done
 			"type": "array",
 			"description": "List of usernames of top editors and their number of edits of this article",
 			"items": {
