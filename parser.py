@@ -51,7 +51,7 @@ def parser():
 
 def parseEdits(edits_lines, json_file): 
 
-  json_file.write(',\n  "edits" : {\n')
+  json_file.write('"edits" : {\n')
   edits_line = ""
   cont = 0
 
