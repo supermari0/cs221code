@@ -6,12 +6,6 @@ class Article:
     self.data = json.loads(file.read())
     file.close()
 
-  def basic_feature_vector(self):
-    # Returns an array of features for the article
-    return [self.title(), self.headings(), self.body_text(), self.body_length()] + \
-           [self.links(), self.is_current_event(), self.percent_anonymous_edits()] + \
-           [self.percent_top_edits(), self.top_editors(), self.age()]
-
   def title(self):
     return self.data['title']
 
@@ -56,3 +50,9 @@ class Article:
 
   def age(self):
     return self.data['age']
+
+  def body_text_tokens(self):
+    return self.body_text().lower().split()
+
+  def heading_tokens(self):
+    return ' '.join(self.headings()).lower().split()
