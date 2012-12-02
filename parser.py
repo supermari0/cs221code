@@ -132,6 +132,7 @@ def parseArticleText(lines, json_file, article_text_index):
   dab_text = dab_text[0 : endIndex+1]
 
   dab_text.replace("\n", "")
+  entireArticleText.replace('\n','')
 
   entireArticleText += dab_text.replace('"', '\\"')
 
@@ -141,7 +142,6 @@ def parseArticleText(lines, json_file, article_text_index):
     if "<h2> <span class=\"mw-headline\" id=\"See_also\">See also</span></h2>" in line: 
       break
     else: 
-      line.replace("\n", "")
       entireArticleText += line.replace('"', '\\"')
 
   
