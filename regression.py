@@ -3,7 +3,7 @@ from article import *
 def basic_features(article, options):
   # Only uses basic features which can be pulled directly from the JSON data
   return [article.body_length(), article.is_current_event(), article.percent_anonymous_edits()] + \
-         [article.percent_top_edits(), article.age()]
+         [article.percent_top_edits()]
 
 def token_features(article, options):
   # Takes into account the number of tokens in headings and body text
