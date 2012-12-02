@@ -144,9 +144,9 @@ def parseArticleText(lines, json_file, article_text_index):
     else: 
       entireArticleText += line.replace('"', '\\"')
 
-  entireArticleText.rstrip()
+  entireArticleText = entireArticleText.replace('\n','') 
   
-  #json_file.write('  "text" : ' + '"' + entireArticleText + '"' + ',\n')
+  json_file.write('  "text" : ' + '"' + entireArticleText + '"' + ',\n')
   json_file.write('  "length" : ' + str(len(entireArticleText)) + '\n')
   json_file.write('  },\n')
 
