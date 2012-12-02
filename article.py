@@ -1,10 +1,8 @@
 import json
 
 class Article:
-  def __init__(self, filepath):
-    file = open(filepath, 'r')
-    self.data = json.loads(file.read())
-    file.close()
+  def __init__(self, json_string):
+    self.data = json.loads(json_string)
 
   def title(self):
     return self.data['title']

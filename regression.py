@@ -1,4 +1,6 @@
+import json
 from article import *
+from parser import DELIMITER
 
 def basic_features(article, options):
   # Only uses basic features which can be pulled directly from the JSON data
@@ -32,8 +34,22 @@ def link_features(article, options):
     vector.append(0)
   return vector
 
-def generate_data(filepaths):
-  articles = [Article(f) for f in filepaths]
+def generate_data(filepath):
+  # First it loads the article from JSON objects in filepath
+  # Then it creates the X (feature vector) and Y (num_edits) tuples for each article
+  file = open(filepath)
+  lines = file.readlines()
+  articles = []
+  json_string = ""
+  for line in lines:
+    if line.strip() == DELIMITER.strip():
+      articles.append(Article(json_string))
+      json_string = ""
+    else:
+      json_string += line
+  if len(json_string) > 0: articles.append(Article(json_string)) # Get last article
+  file.close()
+
   top_editors = []
   heading_tokens = []
   body_tokens = []
@@ -47,10 +63,10 @@ def generate_data(filepaths):
   options = {'articles': articles, 'top_editors': top_editors, 'heading_tokens': heading_tokens}#, \
              # 'body_tokens': body_tokens}
   data = []
-  for a in articles:
+  for article in articles:
     feature_vector = basic_features(article, options) + token_features(article, options) + \
                      link_features(article, options)
-    data.append((feature_vector, a.num_edits()))
+    data.append((feature_vector, article.num_edits()))
   return data
 
 def train(data, loss_fn, gradient_fn, num_rounds = 100, step_size = 0.5, regularization = 0):
@@ -59,8 +75,9 @@ def train(data, loss_fn, gradient_fn, num_rounds = 100, step_size = 0.5, regular
   #TODO: finish
   num_features = len(data[0][0])
   weights = [0 for i in range(num_features)]
-  for i in range(num_rounds):
+  #for i in range(num_rounds):
 
 
 # Below is just a test
-# print generate_data(['Elephant.json', 'Lion.json'])
+if __name__ == "__main__":
+  #print generate_data('Lion.json')
