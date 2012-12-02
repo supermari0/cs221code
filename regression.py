@@ -2,16 +2,16 @@ from article import *
 
 def basic_features(article, options):
   # Only uses basic features which can be pulled directly from the JSON data
-  return [article.body_length(), article.is_current_event(), article.percent_anonymous_edits()] + \
+  return [article.body_length(), article.percent_anonymous_edits()] + \
          [article.percent_top_edits()]
 
 def token_features(article, options):
   # Takes into account the number of tokens in headings and body text
   vector = []
   heading_tokens = options['heading_tokens']
-  body_tokens = options['body_tokens']
+  # body_tokens = options['body_tokens']
   for token in heading_tokens: vector.append(article.heading_tokens().count(token))
-  for token in body_tokens: vector.append(article.body_text_tokens().count(token))
+  # for token in body_tokens: vector.append(article.body_text_tokens().count(token))
   return vector
 
 def link_features(article, options):
@@ -52,6 +52,15 @@ def generate_data(filepaths):
                      link_features(article, options)
     data.append((feature_vector, a.num_edits()))
   return data
+
+def train(data, loss_fn, gradient_fn, num_rounds = 100, step_size = 0.5, regularization = 0):
+  # data is a list of (feature_vector, num_edits) tuples, where feature_vector is a list
+  # This function returns trained weights using stochastic gradient descent
+  #TODO: finish
+  num_features = len(data[0][0])
+  weights = [0 for i in range(num_features)]
+  for i in range(num_rounds):
+
 
 # Below is just a test
 # print generate_data(['Elephant.json', 'Lion.json'])

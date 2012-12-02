@@ -12,8 +12,8 @@ class Article:
   def headings(self):
     return self.data['body']['headings']
 
-  def body_text(self):
-    return self.data['body']['text']
+  # def body_text(self):
+  #   return self.data['body']['text']
 
   def body_length(self):
     return self.data['body']['length']
@@ -21,8 +21,8 @@ class Article:
   def links(self):
     return self.data['links']
 
-  def is_current_event(self):
-    return self.data.has_key('is_current_event') and self.data['is_current_event']
+  # def is_current_event(self):
+  #   return self.data.has_key('is_current_event') and self.data['is_current_event']
 
   def num_edits(self):
     return self.data['edits']['total']
@@ -51,8 +51,8 @@ class Article:
   # def age(self):
   #   return self.data['age']
 
-  def body_text_tokens(self):
-    return self.body_text().lower().split()
+  # def body_text_tokens(self):
+  #   return self.body_text().lower().split()
 
   def heading_tokens(self):
     return ' '.join(self.headings()).lower().split()
