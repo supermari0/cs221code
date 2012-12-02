@@ -6,6 +6,8 @@ python parser.py <Filename>
 
 """
 
+DELIMITER = '%%%'
+
 def parser():
   directory = sys.argv[1]
   wikiFiles = os.listdir(directory)
@@ -49,7 +51,7 @@ def parser():
       most_frequent_users = find_most_frequent_users(edits_lines)
       write_users_to_json(json_file, most_frequent_users)
 
-      json_file.write('}\n')
+      json_file.write('}\n' + DELIMITER + '\n')
       wiki_file.close()
       json_file.close()
 
