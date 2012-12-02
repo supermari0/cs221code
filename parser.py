@@ -103,7 +103,7 @@ def parseEdits(edits_lines, json_file):
       json_file.write('    "frequency" : ' + frequency + '\n')
 
 
-  json_file.write('  }\n')
+  json_file.write('  },\n')
 
 """
 Arguments: 
