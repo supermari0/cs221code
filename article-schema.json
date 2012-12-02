@@ -16,11 +16,6 @@
 						"type": "string"
 					}
 				},
-				"text": {
-					"type": "string",
-					"description": "The actual text (not headers, captions, etc) of the article",
-					"required": true
-				},
 				"length": {
 					"type": "number",
 					"minimum": 0,
