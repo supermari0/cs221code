@@ -38,6 +38,8 @@
       "Further reading",
       "External links"
     ],
+  "length" : 167183
+  },
   "links" : ["This is a good article. Click here for more information.",
   "Elephant (disambiguation)",
   "This article is semi-protected until March 1, 2014.",
@@ -273,9 +275,7 @@
   "A list of all special pages [q]",
   "Wikipedia:About",
   "Wikipedia:General disclaimer"],
-    "length" : 167183
-  },
-"edits" : {
+  "edits" : {
      "total" : 494 ,
     "anonymous" : 0 ,
     "top_10_percent" : 415,
