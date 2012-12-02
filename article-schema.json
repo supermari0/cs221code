@@ -1,7 +1,7 @@
 {
 	"name": "Article",
 	"properties": {
-		"title": {
+		"title": { // done
 			"type": "string",
 			"required": true
 		},
@@ -24,7 +24,7 @@
 				}
 			}
 		},
-		"links": {
+		"links": { 
 			"type": "array",
 			"description": "List of link objects",
 			"items": {
@@ -66,7 +66,7 @@
 					"minimum": 0,
 					"required": true
 				},
-				"frequency": {
+				"frequency": { // Mario
 					"type": "number",
 					"description": "Average frequency of an edit in days",
 					"minimum": 0,
@@ -74,7 +74,7 @@
 				}
 			}
 		},
-		"top_editors": {
+		"top_editors": { // done
 			"type": "array",
 			"description": "List of usernames of top editors and their number of edits of this article",
 			"items": {
