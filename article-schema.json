@@ -24,11 +24,24 @@
 				}
 			}
 		},
-		"links": { //done 
+		"links": { 
 			"type": "array",
-			"description": "List of article titles that this article links to",
+			"description": "List of link objects",
 			"items": {
-				"type": "string"
+				"type": "object",
+				"properties": {
+					"name": {
+						"type": "string",
+						"description": "The name of the article that the link links to",
+						"required": true
+					},
+					"number_of_mentions": {
+						"type": "number",
+						"description": "The number of times that the name is mentioned in the body+headings text",
+						"minimum": 0,
+						"required": true
+					}
+				}
 			},
 			"required": true
 		},
