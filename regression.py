@@ -42,10 +42,10 @@ def generate_data(filepaths):
       if editor not in top_editors: top_editors.append(editor)
     for token in article.heading_tokens():
       if token not in heading_tokens: heading_tokens.append(token)
-    for token in article.body_text_tokens():
-      if token not in body_tokens: body_tokens.append(token)
-  options = {'articles': articles, 'top_editors': top_editors, 'heading_tokens': heading_tokens, \
-             'body_tokens': body_tokens}
+    # for token in article.body_text_tokens():
+      # if token not in body_tokens: body_tokens.append(token)
+  options = {'articles': articles, 'top_editors': top_editors, 'heading_tokens': heading_tokens}#, \
+             # 'body_tokens': body_tokens}
   data = []
   for a in articles:
     feature_vector = basic_features(article, options) + token_features(article, options) + \
