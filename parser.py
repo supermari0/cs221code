@@ -1,4 +1,4 @@
-import re, string, sys, os
+import re, string, sys, os, random
 
 """
 Usage: 
@@ -9,9 +9,13 @@ python parser.py <Filename>
 def parser():
   directory = sys.argv[1]
   wikiFiles = os.listdir(directory)
-  json_file_name = 'wiki.json'
-  json_file = open(json_file_name, 'w') # json file to write to
   for filepath in wikiFiles:
+    # Randomly select whether to add this file to training or test set
+    if random.random() < 0.5:
+      json_file_name = 'train.json'
+    else:
+      json_file_name = 'test.json'
+    json_file = open(json_file_name, 'a') # json file to write to
     if re.search('^index\.html.*', filepath) == None:
       try:
         wiki_file = open(directory + filepath)
@@ -46,8 +50,7 @@ def parser():
 
       json_file.write('}\n')
       wiki_file.close()
-
-  json_file.close()
+      json_file.close()
 
 def parseEdits(edits_lines, json_file): 
 
