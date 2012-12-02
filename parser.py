@@ -132,7 +132,8 @@ def parseArticleText(lines, json_file, article_text_index):
   dab_text = dab_text[0 : endIndex+1]
 
   dab_text.replace("\n", "")
-  entireArticleText.replace('\n','')
+  entireArticleText.replace('\n','\\n')
+  entireArticleText.replace('\r','\\r')
 
   entireArticleText += dab_text.replace('"', '\\"')
 
