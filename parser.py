@@ -41,7 +41,7 @@ def parser():
       links = find_links(lines)
       articleTextIndex = parseSectionHeaders(lines, json_file)
       write_links_to_json(json_file, links)
-      #parseArticleText(lines, json_file, articleTextIndex)
+      parseArticleText(lines, json_file, articleTextIndex)
 
       parseEdits(edits_lines, json_file)
 
@@ -52,7 +52,7 @@ def parser():
       wiki_file.close()
       json_file.close()
 
-def parseEdits(edits_lines, json_file): 
+def parseEdits(edits_lines, json_file):
 
   json_file.write('"edits" : {\n')
   edits_line = ""
@@ -103,10 +103,10 @@ def parseEdits(edits_lines, json_file):
       freq_line = freq_line_obj.group(0)
       frequency_obj = re.search('[0-9]*\.[0-9]*', freq_line)
       frequency = frequency_obj.group(0)
-      json_file.write('    "frequency" : ' + frequency + ',\n')
+      json_file.write('    "frequency" : ' + frequency + '\n')
 
 
-  json_file.write('  }\n')
+  json_file.write('  },\n')
 
 """
 Arguments: 
@@ -131,7 +131,7 @@ def parseArticleText(lines, json_file, article_text_index):
   endIndex = dab_text.find(">.<")
   dab_text = dab_text[0 : endIndex+1]
 
-  entireArticleText += dab_text
+  entireArticleText += dab_text.replace('"', '\\"')
 
   end_article_index = 0
 
@@ -139,7 +139,7 @@ def parseArticleText(lines, json_file, article_text_index):
     if "<h2> <span class=\"mw-headline\" id=\"See_also\">See also</span></h2>" in line: 
       break
     else: 
-      entireArticleText += line
+      entireArticleText += line.replace('"', '\\"')
 
 
   
