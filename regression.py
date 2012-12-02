@@ -69,12 +69,12 @@ def generate_data(filepath):
     data.append((feature_vector, article.num_edits()))
   return data
 
-def train(data, loss_fn, gradient_fn, num_rounds = 100, step_size = 0.5, regularization = 0):
+#def train(data, loss_fn, gradient_fn, num_rounds = 100, step_size = 0.5, regularization = 0):
   # data is a list of (feature_vector, num_edits) tuples, where feature_vector is a list
   # This function returns trained weights using stochastic gradient descent
   #TODO: finish
-  num_features = len(data[0][0])
-  weights = [0 for i in range(num_features)]
+  #num_features = len(data[0][0])
+  #weights = [0 for i in range(num_features)]
   #for i in range(num_rounds):
 
 
