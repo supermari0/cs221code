@@ -1,3 +1,4 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>WikiChecker - Article:Elephant - Wikipedia</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta http-equiv="Content-Style-Type" content="text/css" /><meta http-equiv="Content-Script-Type" content="text/javascript" /><meta name="description" content="Analyze articles of en.wikipedia." /><meta name="keywords" content="wikipedia, statistics, article, edit" /><meta http-equiv="Pragma" content="no-cache" /><meta http-equiv="Cache-Control" content="no-cache" /> <meta http-equiv="Expires" content="0" /><link rel="stylesheet" type="text/css" href="http://www.wikichecker.com/style/wiki.css" /><link rel="start" href="http://en.wikichecker.com/" /><script type="text/javascript" language="javascript"><!--function showhide(id){	if(document.getElementById(id).style.display == "none"){		document.getElementById(id).style.display = "block";	}	else{		document.getElementById(id).style.display = "none";	}}//--></script></head><body><div id="container"><a name="top" id="top"></a><div align="center" style="font-size: 90%;" ><a href="http://en.wikichecker.com" >Home</a> | <a href="http://en.wikichecker.com/user/" >User</a> | <a href="http://en.wikichecker.com/article/" >Article</a> | <a href="http://en.wikichecker.com/current/" >Current</a> | <a href="http://en.wikichecker.com/editwar/?s=10800" >Editwar</a> | 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -28,6 +29,7 @@ function showhide(id){
 </head>
 <body><div id="container">
 <a name="top" id="top"></a><div align="center" style="font-size: 90%;" ><a href="http://en.wikichecker.com" >Home</a> | <a href="http://en.wikichecker.com/user/" >User</a> | <a href="http://en.wikichecker.com/article/" >Article</a> | <a href="http://en.wikichecker.com/current/" >Current</a> | <a href="http://en.wikichecker.com/editwar/?s=10800" >Editwar</a> | 
+>>>>>>> 7620d2c848f26d23797dae3a87d79253f0c81058
 <a href="http://en.wikichecker.com/media/" >Media</a> | 
 <a href="http://en.wikichecker.com/about/" >About this site</a>
 </div>

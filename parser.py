@@ -1,4 +1,4 @@
-import re, string, sys 
+import re, string, sys, os
 
 """
 Usage: 
@@ -6,51 +6,52 @@ python parser.py <Filename>
 
 """
 
-def parser(): 
-
-  print("HELLO")
-  filepath = sys.argv[1]
-  wiki_file = open(filepath)
-  lines = wiki_file.readlines() # list of each line in the file as a string
-
-  for line in lines: 
-    title_obj = re.search('<title>.*</title>' , line)
-    if title_obj != None: 
-      break
-
-  title = title_obj.group(0)
-  title = title[7 : (title.find("Wikipedia, the free encyclopedia")-3)]
-
-  json_file_name = title + '.json'
-
+def parser():
+  directory = sys.argv[1]
+  wikiFiles = os.listdir(directory)
+  json_file_name = 'wiki.json'
   json_file = open(json_file_name, 'w') # json file to write to
+  for filepath in wikiFiles:
+    if re.search('^index\.html.*', filepath) == None:
+      try:
+        wiki_file = open(directory + filepath)
+        edits_file = open(directory + 'index.html?a=' + filepath)
+      except IOError:
+        print("could not open file " + filepath)
+        continue
 
-  json_file.write('{\n  ')
-  json_file.write('"title" : ' + '"' + title + '",\n')
+      edits_lines = edits_file.readlines()
+      lines = wiki_file.readlines() # list of each line in the file as a string
 
-  links = find_links(lines)
-  articleTextIndex = parseSectionHeaders(lines, json_file)
-  write_links_to_json(json_file, links)
-  #parseArticleText(lines, json_file, articleTextIndex)
+      for line in lines: 
+        title_obj = re.search('<title>.*</title>' , line)
+        if title_obj != None: 
+          break
 
+      title = title_obj.group(0)
+      title = title[7 : (title.find("Wikipedia, the free encyclopedia")-3)]
 
-  edits_file = open('index.html?a=' + filepath)
-  edits_lines = edits_file.readlines()
+      json_file.write('{\n  ')
+      json_file.write('"title" : ' + '"' + title + '",\n')
 
-  parseEdits(edits_lines, json_file) 
+      links = find_links(lines)
+      articleTextIndex = parseSectionHeaders(lines, json_file)
+      write_links_to_json(json_file, links)
+      #parseArticleText(lines, json_file, articleTextIndex)
 
-  most_frequent_users = find_most_frequent_users(edits_lines)
-  write_users_to_json(json_file, most_frequent_users)
+      parseEdits(edits_lines, json_file)
 
-  json_file.write('}')
+      most_frequent_users = find_most_frequent_users(edits_lines)
+      write_users_to_json(json_file, most_frequent_users)
+
+      json_file.write('}\n')
+      wiki_file.close()
 
   json_file.close()
-  wiki_file.close()
-
 
 def parseEdits(edits_lines, json_file): 
 
-  json_file.write('\n  "edits" : {\n')
+  json_file.write('"edits" : {\n')
   edits_line = ""
   cont = 0
 
@@ -65,7 +66,7 @@ def parseEdits(edits_lines, json_file):
   endIndex = edits_line.find('edits')
 
   numEdits = edits_line[startIndex : endIndex]
-  json_file.write('     "total" : ' + numEdits + '\n')
+  json_file.write('     "total" : ' + numEdits + ',\n')
 
   for line in edits_lines[cont : len(edits_lines)]: 
     obj = re.search('<li>Anonymous user edited [0-9]+ times</li>', line)
@@ -77,10 +78,33 @@ def parseEdits(edits_lines, json_file):
   endIndex = edits_line.find('times')
 
   anon_edits = edits_line[(startIndex + 7) : endIndex]
-  #print(anon_edits)
+  json_file.write('    "anonymous" : ' + anon_edits + ',\n')
+
+  for line in edits_lines[cont : len(edits_lines)]: 
+    obj = re.search('<li>Edit count of the top .*', line)
+    if obj != None:
+      edits_line = line
+      break
+
+  startIndex = edits_line.find("users:")
+  edits_line = edits_line[startIndex : len(edits_line)]
+  endIndex = edits_line.find('<')
+  top_10_percent = edits_line[7 : endIndex]
+
+  json_file.write('    "top_10_percent" : ' + top_10_percent + ',\n')
 
 
-  json_file.write('  }')  
+  for line in edits_lines:
+    freq_line_obj = re.search('One edit par .* days', line)
+    if freq_line_obj != None:
+      freq_line = freq_line_obj.group(0)
+      frequency_obj = re.search('[0-9]*\.[0-9]*', freq_line)
+      frequency = frequency_obj.group(0)
+      json_file.write('    "frequency" : ' + frequency + ',\n')
+
+
+  json_file.write('  }\n')
+
 """
 Arguments: 
 1) lines - list of strings from the file
@@ -165,9 +189,10 @@ def parseSectionHeaders(lines, json_file):
 
     
   json_file.write('    "headings" : [\n')
-  json_file.write('      "' + categories[0] + '"')
-  for cat in categories[1 : len(categories)]: 
-    json_file.write(',\n      "' + cat + '"')
+  if len(categories) > 0:
+    json_file.write('      "' + categories[0] + '"')
+    for cat in categories[1 : len(categories)]: 
+      json_file.write(',\n      "' + cat + '"')
 
   json_file.write('\n    ],\n')
 
@@ -182,7 +207,7 @@ def write_links_to_json(json_file, links):
     json_file.write('"')
     if i != len(links) - 1:
       json_file.write(',\n  ')
-  json_file.write(']\n  ')
+  json_file.write('],\n  ')
 
 def find_links(lines):
   links = []
