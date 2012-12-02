@@ -40,8 +40,9 @@ def parser():
 
       links = find_links(lines)
       articleTextIndex = parseSectionHeaders(lines, json_file)
-      write_links_to_json(json_file, links)
       parseArticleText(lines, json_file, articleTextIndex)
+      write_links_to_json(json_file, links)
+
 
       parseEdits(edits_lines, json_file)
 
