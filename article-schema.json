@@ -16,11 +16,6 @@
 						"type": "string"
 					}
 				},
-				"text": {
-					"type": "string",
-					"description": "The actual text (not headers, captions, etc) of the article",
-					"required": true
-				},
 				"length": {
 					"type": "number",
 					"minimum": 0,
@@ -36,9 +31,6 @@
 				"type": "string"
 			},
 			"required": true
-		},
-		"is_current_event": {
-			"type": "boolean"
 		},
 		"edits": {
 			"type": "object",
@@ -68,13 +60,6 @@
 					"required": true
 				}
 			}
-		},
-		//NOTE: Age is not accurate: see United States
-		"age": {
-			"type": "number",
-			"description": "The number of days the article has been maintained",
-			"minimum": 0,
-			"required": true
 		},
 		"top_editors": {
 			"type": "array",
