@@ -48,8 +48,8 @@ class Article:
   def top_editors(self):
     return [editor['username'] for editor in self.data['top_editors']]
 
-  def age(self):
-    return self.data['age']
+  # def age(self):
+  #   return self.data['age']
 
   def body_text_tokens(self):
     return self.body_text().lower().split()
