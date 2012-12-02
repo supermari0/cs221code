@@ -260,4 +260,8 @@ def write_users_to_json(json_file, most_frequent_users):
       json_file.write(',')
   json_file.write(']')
 
-parser()
+def main(): 
+  parser()
+
+if __name__ == "__main__": 
+  main()
