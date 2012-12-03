@@ -65,8 +65,8 @@ def generate_data(filepath):
              # 'body_tokens': body_tokens}
   data = []
   for article in articles:
-    feature_vector = basic_features(article, options) + token_features(article, options) + \
-                     link_features(article, options)
+    feature_vector = [1] + basic_features(article, options) + token_features(article, options) + \
+                     link_features(article, options) # The [1] is a constant factor
     data.append((feature_vector, article.num_edits()))
   return data
 
@@ -90,12 +90,16 @@ def vector_sum(list1, list2):
   if len(list1) != len(list2): raise Exception("list1 and list2 must have the same length")
   return [list1[i] + list2[i] for i in range(len(list1))]
 
+def vector_abs(list1):
+  # Takes the absolute value of a list
+  return [abs(elem) for elem in list1]
+
 
 def squared_gradient(features, target, weights):
   margin = dot_product(weights, features) - target
   return scalar_product(features, margin)
 
-def train(data, gradient_fn, num_rounds = 100, init_step_size = 1.0, regularization = 0):
+def train(data, gradient_fn, num_rounds = 10, init_step_size = 0.5, regularization_factor = 0.0):
   # data is a list of (feature_vector, num_edits) tuples, where feature_vector is a list
   # step_size should be greater than 0
   # This function returns trained weights using stochastic gradient descent
@@ -107,13 +111,26 @@ def train(data, gradient_fn, num_rounds = 100, init_step_size = 1.0, regularizat
     for d in data:
       feature_vector = d[0]
       num_edits = d[1]
+      #print d
       update = scalar_product(gradient_fn(feature_vector, num_edits, weights), -1 * step_size)
+      #print update
+      #regularization = scalar_product(weights, -1 * float(regularization_factor) / len(data))
+      #print regularization
+      #weights = vector_sum(weights, vector_sum(update, regularization))
       weights = vector_sum(weights, update)
+      #print weights
+      #if i > 0: exit()
   return weights
+
+def predict(weights, features):
+  return dot_product(weights, features)
 
 # Below is just a test
 if __name__ == "__main__":
-  # data = generate_data('WLion.json')
-  # weights = train(data, squared_gradient)
-  # print data
-  # print weights
+  data = generate_data('WLion.json')
+  weights = train(data, squared_gradient)
+  print data
+  print ''
+  print weights
+  for d in data:
+    print predict(weights, d[0]), d[1]
