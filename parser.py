@@ -11,7 +11,10 @@ DELIMITER = '%%%'
 def parser():
   directory = sys.argv[1]
   wikiFiles = os.listdir(directory)
+  article_count = 0
   for filepath in wikiFiles:
+    if article_count > 20:
+      break
     # Randomly select whether to add this file to training or test set
     if random.random() < 0.5:
       json_file_name = 'train.json'
@@ -36,6 +39,7 @@ def parser():
 
       title = title_obj.group(0)
       title = title[7 : (title.find("Wikipedia, the free encyclopedia")-3)]
+      title = title.replace('"', '\\"')
 
       json_file.write('{\n  ')
       json_file.write('"title" : ' + '"' + title + '",\n')
@@ -54,6 +58,7 @@ def parser():
       json_file.write('}\n' + DELIMITER + '\n')
       wiki_file.close()
       json_file.close()
+      article_count += 1
 
 def parseEdits(edits_lines, json_file):
 
@@ -86,20 +91,24 @@ def parseEdits(edits_lines, json_file):
   anon_edits = edits_line[(startIndex + 7) : endIndex]
   json_file.write('    "anonymous" : ' + anon_edits + ',\n')
 
+  found_edit_count = False 
   for line in edits_lines[cont : len(edits_lines)]: 
     obj = re.search('<li>Edit count of the top .*', line)
     if obj != None:
       edits_line = line
+      startIndex = edits_line.find("users:")
+      edits_line = edits_line[startIndex : len(edits_line)]
+      endIndex = edits_line.find('<')
+      top_10_percent = edits_line[7 : endIndex]
+      json_file.write('    "top_10_percent" : ' + top_10_percent + ',\n')
+      found_edit_count = True
       break
 
-  startIndex = edits_line.find("users:")
-  edits_line = edits_line[startIndex : len(edits_line)]
-  endIndex = edits_line.find('<')
-  top_10_percent = edits_line[7 : endIndex]
-
-  json_file.write('    "top_10_percent" : ' + top_10_percent + ',\n')
+  if not found_edit_count:
+     json_file.write('    "top_10_percent" : 0,\n')
 
 
+  found_frequency = False
   for line in edits_lines:
     freq_line_obj = re.search('One edit par .* days', line)
     if freq_line_obj != None:
@@ -107,6 +116,10 @@ def parseEdits(edits_lines, json_file):
       frequency_obj = re.search('[0-9]*\.[0-9]*', freq_line)
       frequency = frequency_obj.group(0)
       json_file.write('    "frequency" : ' + frequency + '\n')
+      found_frequency = True
+
+  if not found_frequency:
+    json_file.write('    "frequency": 0\n') 
 
 
   json_file.write('  },\n')

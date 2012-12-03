@@ -37,18 +37,7 @@ def link_features(article, options):
 def generate_data(filepath):
   # First it loads the article from JSON objects in filepath
   # Then it creates the X (feature vector) and Y (num_edits) tuples for each article
-  file = open(filepath)
-  lines = file.readlines()
-  articles = []
-  json_string = ""
-  for line in lines:
-    if line.strip() == DELIMITER.strip():
-      articles.append(Article(json_string))
-      json_string = ""
-    else:
-      json_string += line
-  if len(json_string) > 0: articles.append(Article(json_string)) # Get last article
-  file.close()
+  articles = read_articles(filepath)
 
   top_editors = []
   heading_tokens = []
@@ -69,6 +58,22 @@ def generate_data(filepath):
     data.append((feature_vector, article.num_edits()))
   return data
 
+def read_articles(filepath):
+  """ Given the path to a file containing JSON for article data, return a list
+  of Articles for that data. """
+  file = open(filepath)
+  lines = file.readlines()
+  articles = []
+  json_string = ""
+  for line in lines:
+    if line.strip() == DELIMITER.strip():
+      articles.append(Article(json_string))
+      json_string = ""
+    else:
+      json_string += line
+  if len(json_string) > 0: articles.append(Article(json_string)) # Get last article
+  file.close()
+
 #def train(data, loss_fn, gradient_fn, num_rounds = 100, step_size = 0.5, regularization = 0):
   # data is a list of (feature_vector, num_edits) tuples, where feature_vector is a list
   # This function returns trained weights using stochastic gradient descent
@@ -79,5 +84,5 @@ def generate_data(filepath):
 
 
 # Below is just a test
-if __name__ == "__main__":
+#if __name__ == "__main__":
   #print generate_data('Lion.json')
