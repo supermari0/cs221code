@@ -11,7 +11,10 @@ DELIMITER = '%%%'
 def parser():
   directory = sys.argv[1]
   wikiFiles = os.listdir(directory)
+  article_count = 0
   for filepath in wikiFiles:
+    if article_count > 500:
+      break
     # Randomly select whether to add this file to training or test set
     if random.random() < 0.5:
       json_file_name = 'train.json'
@@ -55,6 +58,7 @@ def parser():
       json_file.write('}\n' + DELIMITER + '\n')
       wiki_file.close()
       json_file.close()
+      article_count += 1
 
 def parseEdits(edits_lines, json_file):
 
@@ -209,6 +213,7 @@ def parseSectionHeaders(lines, json_file):
   if len(categories) > 0:
     json_file.write('      "' + categories[0] + '"')
     for cat in categories[1 : len(categories)]: 
+      cat = cat.replace('"','\\"')
       json_file.write(',\n      "' + cat + '"')
 
   json_file.write('\n    ],\n')
