@@ -242,6 +242,8 @@ def find_links(lines):
       link_obj = re.search('"[^"]*"', link)
       link = link_obj.group(0)
       link = link[1:-1]
+      # Escape characters in link
+      link = link.replace('\\','\\\\')
       links.append(link)
   return links
 
