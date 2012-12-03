@@ -1,5 +1,6 @@
 import json
 from article import *
+from random import shuffle
 from parser import DELIMITER
 
 def basic_features(article, options):
@@ -69,15 +70,50 @@ def generate_data(filepath):
     data.append((feature_vector, article.num_edits()))
   return data
 
-def train(data, loss_fn, gradient_fn, num_rounds = 100, step_size = 0.5, regularization = 0):
-  # data is a list of (feature_vector, num_edits) tuples, where feature_vector is a list
-  # This function returns trained weights using stochastic gradient descent
-  #TODO: finish
-  num_features = len(data[0][0])
-  weights = [0 for i in range(num_features)]
-  #for i in range(num_rounds):
+def dot_product(list1, list2):
+  # Take the dot product of two lists of the same length
+  if len(list1) != len(list2): raise Exception("list1 and list2 must have the same length")
+  product = 0
+  for i in range(len(list1)):
+    product += list1[i] * list2[i]
+  return product
 
+def scalar_product(vector, scalar):
+  # Multiply a list (vector) by a scalar to do scalar multiplication
+  product = []
+  for i in range(len(vector)):
+    product.append(vector[i] * scalar)
+  return product
+
+def vector_sum(list1, list2):
+  # Take the sum of two lists of the same length
+  if len(list1) != len(list2): raise Exception("list1 and list2 must have the same length")
+  return [list1[i] + list2[i] for i in range(len(list1))]
+
+
+def squared_gradient(features, target, weights):
+  margin = dot_product(weights, features) - target
+  return scalar_product(features, margin)
+
+def train(data, gradient_fn, num_rounds = 100, init_step_size = 1.0, regularization = 0):
+  # data is a list of (feature_vector, num_edits) tuples, where feature_vector is a list
+  # step_size should be greater than 0
+  # This function returns trained weights using stochastic gradient descent
+  num_features = len(data[0][0])
+  weights = [0.0 for i in range(num_features)]
+  for i in range(num_rounds):
+    shuffle(data)
+    step_size = init_step_size * 1 / float(i + 1)
+    for d in data:
+      feature_vector = d[0]
+      num_edits = d[1]
+      update = scalar_product(gradient_fn(feature_vector, num_edits, weights), -1 * step_size)
+      weights = vector_sum(weights, update)
+  return weights
 
 # Below is just a test
 if __name__ == "__main__":
-  #print generate_data('Lion.json')
+  # data = generate_data('WLion.json')
+  # weights = train(data, squared_gradient)
+  # print data
+  # print weights
