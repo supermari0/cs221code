@@ -66,30 +66,38 @@ def parseEdits(edits_lines, json_file):
   edits_line = ""
   cont = 0
 
+  # Number of edits
+  found_num_edits = False
   for index, line in enumerate(edits_lines): 
     obj = re.search('<h2>[0-9]+ edits on article.*', line)
     if obj != None: 
       edits_line = line
       cont = index
+      startIndex = edits_line.find('<h2>') + 4
+      endIndex = edits_line.find('edits')
+      numEdits = edits_line[startIndex : endIndex]
+      json_file.write('     "total" : ' + numEdits + ',\n')
+      found_num_edits = True
       break
+    
+  if not found_num_edits:
+    json_file.write('     "total" : 0,\n')
 
-  startIndex = edits_line.find('<h2>') + 4
-  endIndex = edits_line.find('edits')
-
-  numEdits = edits_line[startIndex : endIndex]
-  json_file.write('     "total" : ' + numEdits + ',\n')
-
+  # Number of anonymous edits
+  found_anonymous_edits = False
   for line in edits_lines[cont : len(edits_lines)]: 
     obj = re.search('<li>Anonymous user edited [0-9]+ times</li>', line)
     if obj != None: 
       edits_line = line
+      startIndex = edits_line.find('edited')
+      endIndex = edits_line.find('times')
+      anon_edits = edits_line[(startIndex + 7) : endIndex]
+      json_file.write('    "anonymous" : ' + anon_edits + ',\n')
+      found_anonymous_edits = True
       break
 
-  startIndex = edits_line.find('edited')
-  endIndex = edits_line.find('times')
-
-  anon_edits = edits_line[(startIndex + 7) : endIndex]
-  json_file.write('    "anonymous" : ' + anon_edits + ',\n')
+  if not found_anonymous_edits:
+    json_file.write('    "anonymous" : 0,\n')
 
   found_edit_count = False 
   for line in edits_lines[cont : len(edits_lines)]: 
@@ -120,7 +128,6 @@ def parseEdits(edits_lines, json_file):
 
   if not found_frequency:
     json_file.write('    "frequency": 0\n') 
-
 
   json_file.write('  },\n')
 
