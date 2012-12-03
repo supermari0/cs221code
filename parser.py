@@ -236,9 +236,6 @@ def parse_section_headers(lines, json_file):
   return (categories, contents_end + 1)
 
 def write_links_to_json(json_file, links, entire_article_text, categories):
-
-
-
   json_file.write('  "links" : [\n')
   
   if len(links) > 0: 

@@ -23,6 +23,9 @@ class Article:
   def link_names(self):
     return [link['name'] for link in self.links()]
 
+  def link_number_of_mentions(self):
+    return [link['number_of_mentions'] for link in self.links()]
+
   # def is_current_event(self):
   #   return self.data.has_key('is_current_event') and self.data['is_current_event']
 
