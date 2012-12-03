@@ -1,6 +1,6 @@
 import json
 from article import *
-from random import shuffle
+import random
 from parser import DELIMITER
 
 def basic_features(article, options):
@@ -99,27 +99,22 @@ def squared_gradient(features, target, weights):
   margin = dot_product(weights, features) - target
   return scalar_product(features, margin)
 
-def train(data, gradient_fn, num_rounds = 10, init_step_size = 0.5, regularization_factor = 0.0):
+def train(data, gradient_fn, num_rounds = 10, init_step_size = 0.01, step_size_reduction = 0.1, regularization_factor = 0.001):
   # data is a list of (feature_vector, num_edits) tuples, where feature_vector is a list
-  # step_size should be greater than 0
+  # step_size should be greater than 0; step_size_reduction is in [0, 1]
   # This function returns trained weights using stochastic gradient descent
   num_features = len(data[0][0])
   weights = [0.0 for i in range(num_features)]
   for i in range(num_rounds):
-    shuffle(data)
-    step_size = init_step_size * 1 / float(i + 1)
-    for d in data:
+    random.shuffle(data)
+    for j in range(len(data)):
+      d = data[j]
+      step_size = init_step_size / float((j + 1) ** step_size_reduction)
       feature_vector = d[0]
       num_edits = d[1]
-      #print d
       update = scalar_product(gradient_fn(feature_vector, num_edits, weights), -1 * step_size)
-      #print update
-      #regularization = scalar_product(weights, -1 * float(regularization_factor) / len(data))
-      #print regularization
-      #weights = vector_sum(weights, vector_sum(update, regularization))
-      weights = vector_sum(weights, update)
-      #print weights
-      #if i > 0: exit()
+      regularization = scalar_product(weights, -1 * float(regularization_factor) / len(data))
+      weights = vector_sum(weights, vector_sum(update, regularization))
   return weights
 
 def predict(weights, features):
@@ -127,10 +122,14 @@ def predict(weights, features):
 
 # Below is just a test
 if __name__ == "__main__":
-  data = generate_data('WLion.json')
-  weights = train(data, squared_gradient)
-  print data
-  print ''
-  print weights
-  for d in data:
-    print predict(weights, d[0]), d[1]
+  # random.seed(42)
+  # data = [([1,2],2), ([1,3],3), ([10,9],9)]
+  # weights = train(data, squared_gradient, 1000)
+  # print weights
+  # # data = generate_data('WLion.json')
+  # # weights = train(data, squared_gradient)
+  # # print data
+  # # print ''
+  # # print weights
+  # for d in data:
+  #   print predict(weights, d[0]), d[1]
