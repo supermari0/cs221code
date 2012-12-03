@@ -17,7 +17,11 @@ class Article:
     return self.data['body']['length']
 
   def links(self):
+    # Returns a list of dictionaries with keys 'name' and 'number_of_mentions'
     return self.data['links']
+
+  def link_names(self):
+    return [link['name'] for link in self.links()]
 
   # def is_current_event(self):
   #   return self.data.has_key('is_current_event') and self.data['is_current_event']
