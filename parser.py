@@ -11,10 +11,7 @@ DELIMITER = '%%%'
 def parser():
   directory = sys.argv[1]
   wikiFiles = os.listdir(directory)
-  article_count = 0
   for filepath in wikiFiles:
-    if article_count > 20:
-      break
     # Randomly select whether to add this file to training or test set
     if random.random() < 0.5:
       json_file_name = 'train.json'
@@ -58,7 +55,6 @@ def parser():
       json_file.write('}\n' + DELIMITER + '\n')
       wiki_file.close()
       json_file.close()
-      article_count += 1
 
 def parseEdits(edits_lines, json_file):
 
