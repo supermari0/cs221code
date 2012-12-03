@@ -218,6 +218,7 @@ def parseSectionHeaders(lines, json_file):
     
   json_file.write('    "headings" : [\n')
   if len(categories) > 0:
+    categories[0] = categories[0].replace('"','\\"')
     json_file.write('      "' + categories[0] + '"')
     for cat in categories[1 : len(categories)]: 
       cat = cat.replace('"','\\"')
