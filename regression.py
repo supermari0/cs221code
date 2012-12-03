@@ -68,6 +68,7 @@ def read_articles(filepath):
   for line in lines:
     if line.strip() == DELIMITER.strip():
       articles.append(Article(json_string))
+      print('appended article!')
       json_string = ""
     else:
       json_string += line

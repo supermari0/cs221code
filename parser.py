@@ -252,9 +252,10 @@ def find_most_frequent_users(edits_lines):
       user_name_and_number = user_obj.group(0)
       user_name_end = user_name_and_number.find('<')
       user_name = user_name_and_number[1:user_name_end]
-      user_number_start = user_name_and_number.find('(') + 1
-      user_number_end = user_name_and_number.find(')')
-      user_number = user_name_and_number[user_number_start:user_number_end]
+      string_after_user_name = user_name_and_number[user_name_end + 1:]
+      user_number_start = string_after_user_name.find('(') + 1
+      user_number_end = string_after_user_name.find(')')
+      user_number = string_after_user_name[user_number_start:user_number_end]
       users.append((user_name, user_number))
   return users
 
