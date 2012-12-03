@@ -125,6 +125,7 @@ def parseEdits(edits_lines, json_file):
       frequency = frequency_obj.group(0)
       json_file.write('    "frequency" : ' + frequency + '\n')
       found_frequency = True
+      break
 
   if not found_frequency:
     json_file.write('    "frequency": 0\n') 
@@ -208,7 +209,6 @@ def parseSectionHeaders(lines, json_file):
   for line in lines[contentsStart : contentsEnd]:  # lines[contentsStart : contentsEnd] contains the HTML of the categories table
     obj = re.search('li class="toclevel-[0-9].*', line)
     if (obj != None): 
-      #print(line)
       startIndex = line.find("<span class=\"toctext\">")
       line = line[(startIndex + 22) : len(line)]
       endIndex = line.find('<')
