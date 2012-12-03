@@ -2,6 +2,7 @@ import json
 from article import *
 import random
 from parser import DELIMITER
+import math
 
 def basic_features(article, options):
   # Only uses basic features which can be pulled directly from the JSON data
@@ -94,12 +95,17 @@ def vector_abs(list1):
   # Takes the absolute value of a list
   return [abs(elem) for elem in list1]
 
+def logistic_gradient(features, target, weights): 
+  dot = dot_product(weights, features)
+  denom = 1 + math.exp(-1 * dot * target)
+  coeff = target * (-1 + (1 / denom))
+  return scalar_product(features, coeff)
 
 def squared_gradient(features, target, weights):
   margin = dot_product(weights, features) - target
   return scalar_product(features, margin)
 
-def train(data, gradient_fn, num_rounds = 10, init_step_size = 0.01, step_size_reduction = 0.1, regularization_factor = 0.001):
+def train(data, gradient_fn, num_rounds = 100, init_step_size = 0.01, step_size_reduction = 0.1, regularization_factor = 0.001):
   # data is a list of (feature_vector, num_edits) tuples, where feature_vector is a list
   # step_size should be greater than 0; step_size_reduction is in [0, 1]
   # This function returns trained weights using stochastic gradient descent
@@ -122,14 +128,14 @@ def predict(weights, features):
 
 # Below is just a test
 if __name__ == "__main__":
-  # random.seed(42)
-  # data = [([1,2],2), ([1,3],3), ([10,9],9)]
-  # weights = train(data, squared_gradient, 1000)
-  # print weights
+   random.seed(42)
+   data = [([1,2],2), ([1,3],3), ([10,9],9)]
+   weights = train(data, logistic_gradient, 100000)
+   print weights
   # # data = generate_data('WLion.json')
   # # weights = train(data, squared_gradient)
   # # print data
   # # print ''
   # # print weights
-  # for d in data:
-  #   print predict(weights, d[0]), d[1]
+   for d in data:
+     print predict(weights, d[0]), d[1]
