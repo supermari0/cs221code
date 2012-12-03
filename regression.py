@@ -23,15 +23,21 @@ def link_features(article, options):
   articles = options['articles']
   titles = [a.title() for a in articles]
   links_num_edits = [] # Number of edits of the articles that article links to
+  weighted_links_num_edits = [] # Same as above except weighted for number_of_mentions
   for link in article.links():
-    if link in titles:
-      article = articles[titles.index(link)]
+    if link['name'] in titles:
+      article = articles[titles.index(link['name'])]
       links_num_edits.append(article.num_edits())
-  vector.append(sum(links_num_edits))
-  if sum(links_num_edits) > 0:
-    vector.append(float(sum(links_num_edits)) / len(links_num_edits))
-  else:
-    vector.append(0)
+      for i in range(link['number_of_mentions']):
+        weighted_links_num_edits.append(article.num_edits())
+
+  # Add the sums and averages of links_num_edits and weighted_links_num_edits to the vector
+  for link_list in [links_num_edits, weighted_links_num_edits]:
+    vector.append(sum(link_list))
+    if sum(link_list) > 0:
+      vector.append(float(sum(link_list)) / len(link_list))
+    else:
+      vector.append(0)
   return vector
 
 def generate_data(filepath):
@@ -80,4 +86,4 @@ def generate_data(filepath):
 
 # Below is just a test
 if __name__ == "__main__":
-  #print generate_data('Lion.json')
+  #print generate_data('WLion.json')
