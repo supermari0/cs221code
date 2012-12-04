@@ -75,6 +75,7 @@ def read_articles(filepath):
       json_string += line
   if len(json_string) > 0: articles.append(Article(json_string)) # Get last article
   file.close()
+  return articles
 
 #def train(data, loss_fn, gradient_fn, num_rounds = 100, step_size = 0.5, regularization = 0):
   # data is a list of (feature_vector, num_edits) tuples, where feature_vector is a list
