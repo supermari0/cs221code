@@ -126,7 +126,7 @@ def read_articles(filepath):
   file.close()
   return articles
 
-def train(data, gradient_fn, num_rounds = 500, init_step_size = 5e-10, step_size_reduction = 1e-10, regularization_factor = 1e-3):
+def train(data, gradient_fn, num_rounds = 500, init_step_size = 1e-14, step_size_reduction = 1e-15, regularization_factor = 1e-3):
   # squared_loss: num_rounds = 500, init_step_size = 1e-14, step_size_reduction = 1e-15, regularization_factor = 1e-3
   # logistic_loss: num_rounds = 500, init_step_size = 5e-10, step_size_reduction = 1e-10, regularization_factor = 1e-3
   # data is a list of (feature_vector, num_edits) tuples, where feature_vector is a list
@@ -180,7 +180,7 @@ if __name__ == "__main__":
   test_data = all_data[len(all_data) / 2:]
   #data = [([1,2],2), ([1,3],3), ([10,9],9)]
   print "Training the predictor..."
-  weights = train(train_data, logistic_gradient, 500)
+  weights = train(train_data, squared_gradient, 500)
   print ''
   print "weights: " + str(weights)
   print ''
