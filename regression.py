@@ -39,18 +39,7 @@ def link_features(article, options):
 def generate_data(filepath):
   # First it loads the article from JSON objects in filepath
   # Then it creates the X (feature vector) and Y (num_edits) tuples for each article
-  file = open(filepath)
-  lines = file.readlines()
-  articles = []
-  json_string = ""
-  for line in lines:
-    if line.strip() == DELIMITER.strip():
-      articles.append(Article(json_string))
-      json_string = ""
-    else:
-      json_string += line
-  if len(json_string) > 0: articles.append(Article(json_string)) # Get last article
-  file.close()
+  articles = read_articles(filepath)
 
   top_editors = []
   heading_tokens = []
@@ -105,6 +94,25 @@ def squared_gradient(features, target, weights):
   margin = dot_product(weights, features) - target
   return scalar_product(features, margin)
 
+def read_articles(filepath):
+  """ Given the path to a file containing JSON for article data, return a list
+  of Articles for that data. """
+  file = open(filepath)
+  lines = file.readlines()
+  articles = []
+  json_string = ""
+  articles_appended = 0
+  for line in lines:
+    if line.strip() == DELIMITER.strip():
+      articles.append(Article(json_string))
+      articles_appended += 1
+      json_string = ""
+    else:
+      json_string += line
+  if len(json_string) > 0: articles.append(Article(json_string)) # Get last article
+  file.close()
+  return articles
+
 def train(data, gradient_fn, num_rounds = 100, init_step_size = 0.01, step_size_reduction = 0.1, regularization_factor = 0.001):
   # data is a list of (feature_vector, num_edits) tuples, where feature_vector is a list
   # step_size should be greater than 0; step_size_reduction is in [0, 1]
@@ -112,8 +120,6 @@ def train(data, gradient_fn, num_rounds = 100, init_step_size = 0.01, step_size_
   num_features = len(data[0][0])
   weights = [0.0 for i in range(num_features)]
   for i in range(num_rounds):
-    print "== ROUND " + str(i) + "=="
-    print weights
     random.shuffle(data)
     for j in range(len(data)):
       d = data[j]
@@ -123,23 +129,17 @@ def train(data, gradient_fn, num_rounds = 100, init_step_size = 0.01, step_size_
       update = scalar_product(gradient_fn(feature_vector, num_edits, weights), -1 * step_size)
       regularization = scalar_product(weights, -1 * float(regularization_factor) / len(data))
       weights = vector_sum(weights, vector_sum(update, regularization))
-
-
-
   return weights
 
 def predict(weights, features):
   return dot_product(weights, features)
 
-# Below is just a test
 if __name__ == "__main__":
    random.seed(42)
    #data = [([1,2],2), ([1,3],3), ([10,9],9)]
    #weights = train(data, logistic_gradient, 100000)
-   #print weights
    data = generate_data('train.json')
    weights = train(data, squared_gradient)
-   #print data
    print 'WEIGHTS'
    print weights
    """for d in data:
