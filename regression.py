@@ -112,6 +112,8 @@ def train(data, gradient_fn, num_rounds = 100, init_step_size = 0.01, step_size_
   num_features = len(data[0][0])
   weights = [0.0 for i in range(num_features)]
   for i in range(num_rounds):
+    print "== ROUND " + str(i) + "=="
+    print weights
     random.shuffle(data)
     for j in range(len(data)):
       d = data[j]
@@ -121,6 +123,9 @@ def train(data, gradient_fn, num_rounds = 100, init_step_size = 0.01, step_size_
       update = scalar_product(gradient_fn(feature_vector, num_edits, weights), -1 * step_size)
       regularization = scalar_product(weights, -1 * float(regularization_factor) / len(data))
       weights = vector_sum(weights, vector_sum(update, regularization))
+
+
+
   return weights
 
 def predict(weights, features):
@@ -129,13 +134,13 @@ def predict(weights, features):
 # Below is just a test
 if __name__ == "__main__":
    random.seed(42)
-   data = [([1,2],2), ([1,3],3), ([10,9],9)]
-   weights = train(data, logistic_gradient, 100000)
+   #data = [([1,2],2), ([1,3],3), ([10,9],9)]
+   #weights = train(data, logistic_gradient, 100000)
+   #print weights
+   data = generate_data('train.json')
+   weights = train(data, squared_gradient)
+   #print data
+   print 'WEIGHTS'
    print weights
-  # # data = generate_data('WLion.json')
-  # # weights = train(data, squared_gradient)
-  # # print data
-  # # print ''
-  # # print weights
-   for d in data:
-     print predict(weights, d[0]), d[1]
+   """for d in data:
+     print predict(weights, d[0]), d[1]"""
