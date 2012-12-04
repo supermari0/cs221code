@@ -20,8 +20,15 @@ def run_average_heuristic():
   differences = []
   for editCount in numEditsTest:
     difference = editCount - averageNumEdits
-    difference.append(prediction)
+    differences.append(difference)
 
+  totalDifference = sum(differences)
+  averageDifference = sum(differences) / float(len(differences))
+
+  print('Sum of differences between actual and predicted values: ' +
+    str(totalDifference))
+  print('Average difference between actual and predicted values: ' +
+    str(averageDifference))
 
 if __name__ == '__main__':
-  train_edit_counts = get_num_edits('train.json')
+  run_average_heuristic()
