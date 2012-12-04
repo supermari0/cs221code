@@ -133,6 +133,20 @@ def parseEdits(edits_lines, json_file):
   json_file.write('  },\n')
 
 """
+Returns an array of strings
+"""
+def tokenize_text(json_file, entireArticleText): 
+  all_words = string.split(entireArticleText)
+  json_file.write('  "tokens": [\n')
+  for i in range(0, len(all_words) - 1): 
+    all_words[i] = all_words[i].replace('"', '\"')
+    json_file.write('    "' + all_words[i] + '",\n')
+  all_words[len(all_words)-1] = all_words[i].replace('"', '\"')
+  json_file.write('    "' + all_words[len(all_words)-1] + '" ]\n')
+
+
+
+"""
 Arguments: 
 1) lines - list of strings from the file
 2) json_file - json_file to write to
@@ -170,7 +184,8 @@ def parseArticleText(lines, json_file, article_text_index):
   entireArticleText.rstrip()
   
   #json_file.write('  "text" : ' + '"' + entireArticleText + '"' + ',\n')
-  json_file.write('  "length" : ' + str(len(entireArticleText)) + '\n')
+  json_file.write('  "length" : ' + str(len(entireArticleText)) + ',\n')
+  tokenize_text(json_file, entireArticleText)
   json_file.write('  },\n')
 
 
