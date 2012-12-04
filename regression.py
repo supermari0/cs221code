@@ -84,15 +84,22 @@ def vector_abs(list1):
   # Takes the absolute value of a list
   return [abs(elem) for elem in list1]
 
+
 def logistic_gradient(features, target, weights): 
   dot = dot_product(weights, features)
   denom = 1 + math.exp(-1 * dot * target)
   coeff = target * (-1 + (1 / denom))
   return scalar_product(features, coeff)
 
+def squared_loss(features, target, weights):
+  margin = dot_product(weights, features) - target
+  return 0.5 * margin ** 2
+
+
 def squared_gradient(features, target, weights):
   margin = dot_product(weights, features) - target
   return scalar_product(features, margin)
+
 
 def read_articles(filepath):
   """ Given the path to a file containing JSON for article data, return a list
@@ -104,16 +111,24 @@ def read_articles(filepath):
   articles_appended = 0
   for line in lines:
     if line.strip() == DELIMITER.strip():
-      articles.append(Article(json_string))
+      # TODO: Get rid of outliers
+      article = Article(json_string)
+      if article.num_edits() < 20: # Outliers
+        json_string = ""
+        continue
+      articles.append(article)
       articles_appended += 1
       json_string = ""
+      if articles_appended > 100: break # TODO: shorten testing
     else:
       json_string += line
   if len(json_string) > 0: articles.append(Article(json_string)) # Get last article
   file.close()
   return articles
 
-def train(data, gradient_fn, num_rounds = 100, init_step_size = 0.01, step_size_reduction = 0.1, regularization_factor = 0.001):
+def train(data, gradient_fn, num_rounds = 500, init_step_size = 5e-10, step_size_reduction = 1e-10, regularization_factor = 1e-3):
+  # squared_loss: num_rounds = 500, init_step_size = 1e-14, step_size_reduction = 1e-15, regularization_factor = 1e-3
+  # logistic_loss: num_rounds = 500, init_step_size = 5e-10, step_size_reduction = 1e-10, regularization_factor = 1e-3
   # data is a list of (feature_vector, num_edits) tuples, where feature_vector is a list
   # step_size should be greater than 0; step_size_reduction is in [0, 1]
   # This function returns trained weights using stochastic gradient descent
@@ -134,13 +149,49 @@ def train(data, gradient_fn, num_rounds = 100, init_step_size = 0.01, step_size_
 def predict(weights, features):
   return dot_product(weights, features)
 
+def test(data, weights, loss_fn, verbose = False):
+  # data is a list of (feature_vector, num_edits) tuples, where feature_vector is a list
+  loss_total = 0
+  percent_losses = []
+  for d in data:
+    feature_vector = d[0]
+    target = d[1]
+    prediction = predict(weights, feature_vector)
+    loss = loss_fn(feature_vector, target, weights)
+    percent_loss = round(100 * float(target - prediction) / target, 2)
+    percent_losses.append(percent_loss)
+    loss_total += loss
+    if verbose: print "Prediction: " + str(prediction) + "; Target: " + str(target) + \
+                      "; Loss: " + str(loss) + "; Error: " + str(percent_loss) + "%"
+  if verbose:
+    percent_losses = vector_abs(percent_losses) # To correctly calculate avg and max
+    print "\nTotal Loss: " + str(loss_total)
+    print "Average Error: " + str(sum(percent_losses) / len(percent_losses)) + "%"
+    print "Max Error: " + str(max(percent_losses)) + "%"
+  return loss_total
+
+# Below is just a test
 if __name__ == "__main__":
-   random.seed(42)
-   #data = [([1,2],2), ([1,3],3), ([10,9],9)]
-   #weights = train(data, logistic_gradient, 100000)
-   data = generate_data('train.json')
-   weights = train(data, squared_gradient)
-   print 'WEIGHTS'
-   print weights
-   """for d in data:
-     print predict(weights, d[0]), d[1]"""
+  #TODO: train and test data token features => same length.....?
+  random.seed(42)
+  print "Generating data..."
+  all_data = generate_data('train.json')
+  train_data = all_data[:len(all_data) / 2]
+  test_data = all_data[len(all_data) / 2:]
+  #data = [([1,2],2), ([1,3],3), ([10,9],9)]
+  print "Training the predictor..."
+  weights = train(train_data, logistic_gradient, 500)
+  print ''
+  print "weights: " + str(weights)
+  print ''
+  print "Testing the predictor..."
+  test(test_data, weights, squared_loss, True)
+  print ''
+  # print weights
+  # data = generate_data('WLion.json')
+  # weights = train(data, squared_gradient)
+  # print data
+  # print ''
+  # print weights
+  # for d in data:
+  #   print predict(weights, d[0]), d[1]

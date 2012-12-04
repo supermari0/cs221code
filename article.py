@@ -30,6 +30,7 @@ class Article:
 
   def percent_anonymous_edits(self):
     # Returns a number between 0% and 100%
+    if self.num_edits() == 0: return 0
     return float(self.num_anonymous_edits()) / float(self.num_edits()) * 100.0
 
   def num_edits_by_top(self):
@@ -38,6 +39,7 @@ class Article:
 
   def percent_top_edits(self):
     # Returns a number between 0% and 100%
+    if self.num_edits() == 0: return 0
     return float(self.num_edits_by_top()) / float(self.num_edits()) * 100.0
 
   def edit_frequency(self):
