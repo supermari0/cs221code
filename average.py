@@ -19,7 +19,7 @@ def run_average_heuristic():
 
   differences = []
   for editCount in numEditsTest:
-    difference = editCount - averageNumEdits
+    difference = abs(editCount - averageNumEdits)
     differences.append(difference)
 
   totalDifference = sum(differences)
