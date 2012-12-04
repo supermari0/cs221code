@@ -3,6 +3,7 @@ from article import *
 import random
 from parser import DELIMITER
 import math
+import operator
 
 def basic_features(article, options):
   # Only uses basic features which can be pulled directly from the JSON data
@@ -152,23 +153,63 @@ def predict(weights, features):
 def test(data, weights, loss_fn, verbose = False):
   # data is a list of (feature_vector, num_edits) tuples, where feature_vector is a list
   loss_total = 0
+  identifier = 0
   percent_losses = []
+  tuples = []
   for d in data:
     feature_vector = d[0]
     target = d[1]
     prediction = predict(weights, feature_vector)
+    tuples.append((identifier, target, prediction)) # append 3-tuple to list for rankings
+
     loss = loss_fn(feature_vector, target, weights)
     percent_loss = round(100 * float(target - prediction) / target, 2)
     percent_losses.append(percent_loss)
     loss_total += loss
     if verbose: print "Prediction: " + str(prediction) + "; Target: " + str(target) + \
                       "; Loss: " + str(loss) + "; Error: " + str(percent_loss) + "%"
+    identifier += 1
   if verbose:
     percent_losses = vector_abs(percent_losses) # To correctly calculate avg and max
     print "\nTotal Loss: " + str(loss_total)
     print "Average Error: " + str(sum(percent_losses) / len(percent_losses)) + "%"
     print "Max Error: " + str(max(percent_losses)) + "%"
+
+    ranked_targets = rank(tuples, 1)
+    ranked_predictions = rank(tuples, 2)
+    
+    target_pairs = get_pairs(ranked_targets)
+    prediction_pairs = get_pairs(ranked_predictions)
+
+    intersect = target_pairs.intersection(prediction_pairs)
+    score = (float(len(intersect)) / len(target_pairs)) * 100
+
+    print "Ranking score: " + str(score) + "%"
+
   return loss_total
+
+def get_pairs(data): 
+  # run on ranked array - only consider the 0th element of tuple
+  pairs = set()
+  for i in range(len(data)): 
+    for j in range(i+1, len(data)): 
+      pairs.add((data[i][0], data[j][0]))
+  return pairs
+
+def order(data): 
+  ordered = []
+  i = 0
+  for pt in data: 
+    ordered.append((i, pt[1]))
+    i += 1
+  return ordered
+
+
+def rank(data, item): 
+  
+  ranked = sorted(data, key=operator.itemgetter(item))
+  return ranked
+
 
 # Below is just a test
 if __name__ == "__main__":
@@ -178,7 +219,8 @@ if __name__ == "__main__":
   all_data = generate_data('train.json')
   train_data = all_data[:len(all_data) / 2]
   test_data = all_data[len(all_data) / 2:]
-  #data = [([1,2],2), ([1,3],3), ([10,9],9)]
+
+
   print "Training the predictor..."
   weights = train(train_data, squared_gradient, 500)
   print ''
