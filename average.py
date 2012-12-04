@@ -18,17 +18,24 @@ def run_average_heuristic():
   numEditsTest = get_num_edits('test.json')
 
   differences = []
+  percentErrors = []
   for editCount in numEditsTest:
     difference = abs(editCount - averageNumEdits)
     differences.append(difference)
 
+    percentError = round(100 * float(abs(editCount - averageNumEdits)) / editCount, 
+      2)
+    percentErrors.append(percentError)
+
   totalDifference = sum(differences)
   averageDifference = sum(differences) / float(len(differences))
+  averageError = sum(percentErrors) / len(percentErrors)
 
   print('Sum of differences between actual and predicted values: ' +
     str(totalDifference))
   print('Average difference between actual and predicted values: ' +
     str(averageDifference))
+  print('Average error: ' + str(averageError) + '%')
 
 if __name__ == '__main__':
   run_average_heuristic()
