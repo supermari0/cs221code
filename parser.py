@@ -138,10 +138,8 @@ Returns an array of strings
 def tokenize_text(json_file, entireArticleText): 
   all_words = string.split(entireArticleText)
   json_file.write('  "tokens": [\n')
-  for i in range(0, len(all_words) - 1): 
-    all_words[i] = all_words[i].replace('"', '\"')
+  for i in range(0, len(all_words) - 1):
     json_file.write('    "' + all_words[i] + '",\n')
-  all_words[len(all_words)-1] = all_words[i].replace('"', '\"')
   json_file.write('    "' + all_words[len(all_words)-1] + '" ]\n')
 
 
@@ -169,17 +167,19 @@ def parseArticleText(lines, json_file, article_text_index):
   endIndex = dab_text.find(">.<")
   dab_text = dab_text[0 : endIndex+1]
 
-  dab_text.replace("\n", "")
-
-  entireArticleText += dab_text.replace('"', '\\"')
+  entireArticleText += dab_text
 
   end_article_index = 0
 
   for line in lines[article_text_index : len(lines)]: 
     if "<h2> <span class=\"mw-headline\" id=\"See_also\">See also</span></h2>" in line: 
       break
-    else: 
-      entireArticleText += line.replace('"', '\\"')
+    else:
+     entireArticleText += line
+
+  entireArticleText = entireArticleText.replace("\n", "")
+  entireArticleText = entireArticleText.replace('\\', '\\\\')
+  entireArticleText = entireArticleText.replace('"', '\\"')
 
   entireArticleText.rstrip()
   
