@@ -37,6 +37,14 @@ def link_features(article, options):
     vector.append(0)
   return vector
 
+def expand_features(features):
+  # The features and the features squared
+  new_features = []
+  for i in range(len(features)):
+    new_features.append(features[i] * features[i])
+  return features + new_features
+
+
 def generate_data(filepath):
   # First it loads the article from JSON objects in filepath
   # Then it creates the X (feature vector) and Y (num_edits) tuples for each article
@@ -56,8 +64,9 @@ def generate_data(filepath):
              # 'body_tokens': body_tokens}
   data = []
   for article in articles:
-    feature_vector = [1] + basic_features(article, options) + token_features(article, options) + \
-                     link_features(article, options) # The [1] is a constant factor
+    feature_vector = basic_features(article, options) + token_features(article, options) + \
+                     link_features(article, options)
+    feature_vector = [1] + expand_features(feature_vector) # The [1] is a constant factor
     data.append((feature_vector, article.num_edits()))
   return data
 
@@ -120,14 +129,15 @@ def read_articles(filepath):
       articles.append(article)
       articles_appended += 1
       json_string = ""
-      if articles_appended > 100: break # TODO: shorten testing
+      if articles_appended > 50: break # TODO: shorten testing
     else:
       json_string += line
   if len(json_string) > 0: articles.append(Article(json_string)) # Get last article
   file.close()
   return articles
 
-def train(data, gradient_fn, num_rounds = 500, init_step_size = 1e-14, step_size_reduction = 1e-15, regularization_factor = 1e-3):
+
+def train(data, gradient_fn, loss_fn, num_rounds = 1200, init_step_size = 9e-22, step_size_reduction = 1e-30, regularization_factor = 10):
   # squared_loss: num_rounds = 500, init_step_size = 1e-14, step_size_reduction = 1e-15, regularization_factor = 1e-3
   # logistic_loss: num_rounds = 500, init_step_size = 5e-10, step_size_reduction = 1e-10, regularization_factor = 1e-3
   # data is a list of (feature_vector, num_edits) tuples, where feature_vector is a list
@@ -136,6 +146,7 @@ def train(data, gradient_fn, num_rounds = 500, init_step_size = 1e-14, step_size
   num_features = len(data[0][0])
   weights = [0.0 for i in range(num_features)]
   for i in range(num_rounds):
+    if i % 100 == 0: print "Starting Round " + str(i + 1)
     random.shuffle(data)
     for j in range(len(data)):
       d = data[j]
@@ -145,6 +156,11 @@ def train(data, gradient_fn, num_rounds = 500, init_step_size = 1e-14, step_size
       update = scalar_product(gradient_fn(feature_vector, num_edits, weights), -1 * step_size)
       regularization = scalar_product(weights, -1 * float(regularization_factor) / len(data))
       weights = vector_sum(weights, vector_sum(update, regularization))
+    if i % 100 == 0:
+      loss = 0
+      for d in data:
+        loss += loss_fn(d[0], d[1], weights)
+      print loss
   return weights
 
 def predict(weights, features):
@@ -222,7 +238,7 @@ if __name__ == "__main__":
 
 
   print "Training the predictor..."
-  weights = train(train_data, squared_gradient, 500)
+  weights = train(train_data, squared_gradient, squared_loss)
   print ''
   print "weights: " + str(weights)
   print ''
