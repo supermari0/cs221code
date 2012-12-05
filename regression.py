@@ -45,33 +45,47 @@ def expand_features(features):
   return features + new_features
 
 
-def generate_data(filepath, expandFeatures):
+def generate_data(train_filepath, test_filepath, expandFeatures):
   # First it loads the article from JSON objects in filepath
   # Then it creates the X (feature vector) and Y (num_edits) tuples for each article
-  articles = read_articles(filepath)
+  train_articles = read_articles(train_filepath)
+  test_articles = read_articles(test_filepath)
+  all_articles = train_articles + test_articles
 
   top_editors = []
   heading_tokens = []
   body_tokens = []
-  for article in articles:
+  for article in all_articles:
     for editor in article.top_editors():
       if editor not in top_editors: top_editors.append(editor)
     for token in article.heading_tokens():
       if token not in heading_tokens: heading_tokens.append(token)
     # for token in article.body_text_tokens():
       # if token not in body_tokens: body_tokens.append(token)
-  options = {'articles': articles, 'top_editors': top_editors, 'heading_tokens': heading_tokens}#, \
+  options = {'articles': all_articles, 'top_editors': top_editors, 'heading_tokens': heading_tokens}#, \
              # 'body_tokens': body_tokens}
-  data = []
-  for article in articles:
+  train_data = []
+  test_data = []
+
+  for article in train_articles:
     feature_vector = basic_features(article, options) + token_features(article, options) + \
                      link_features(article, options)
     if expandFeatures:
       feature_vector = [1] + expand_features(feature_vector)
     else:
       feature_vector = [1] + feature_vector
-    data.append((feature_vector, article.num_edits()))
-  return data
+    train_data.append((feature_vector, article.num_edits()))
+
+  for article in test_articles:
+    feature_vector = basic_features(article, options) + token_features(article, options) + \
+                     link_features(article, options)
+    if expandFeatures:
+      feature_vector = [1] + expand_features(feature_vector)
+    else:
+      feature_vector = [1] + feature_vector
+    test_data.append((feature_vector, article.num_edits()))
+
+  return (train_data, test_data)
 
 def dot_product(list1, list2):
   # Take the dot product of two lists of the same length
@@ -233,11 +247,11 @@ def rank(data, item):
 if __name__ == "__main__":
   #TODO: train and test data token features => same length.....?
   random.seed(42)
-  print "Generating data for least squares..."
-  all_data = generate_data('train.json', False)
-  train_data = all_data[:len(all_data) / 2]
-  test_data = all_data[len(all_data) / 2:]
 
+  print "Generating data for least squares..."
+  all_data = generate_data('train.json', 'test.json', False)
+  train_data = all_data[0]
+  test_data = all_data[1]
 
   print "Training the predictor..."
   weights = train(train_data, squared_gradient, squared_loss, num_rounds = 500,
@@ -248,12 +262,13 @@ if __name__ == "__main__":
   #print "weights: " + str(weights)
   #print ''
   #print "Testing the predictor..."
-  #test(test_data, weights, squared_loss, True)
+  test(test_data, weights, squared_loss, True)
   
   print "Generating data for least squares with basis expansion..."
-  all_data = generate_data('train.json', True)
-  train_data = all_data[:len(all_data) / 2]
-  test_data = all_data[len(all_data) / 2:]
+  all_data = generate_data('train.json', 'test.json', True)
+  train_data = all_data[0]
+  test_data = all_data[1]
+
 
   print "Training the predictor..."
   weights = train(train_data, squared_gradient, squared_loss, num_rounds = 100,
