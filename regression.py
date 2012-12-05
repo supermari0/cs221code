@@ -69,7 +69,7 @@ def generate_data(filepath, expandFeatures):
     if expandFeatures:
       feature_vector = [1] + expand_features(feature_vector)
     else:
-      feature_vector = [1] + expand_features(feature_vector)
+      feature_vector = [1] + feature_vector
     data.append((feature_vector, article.num_edits()))
   return data
 
@@ -234,13 +234,16 @@ if __name__ == "__main__":
   #TODO: train and test data token features => same length.....?
   random.seed(42)
   print "Generating data..."
-  all_data = generate_data('train.json', True)
+  all_data = generate_data('train.json', False)
   train_data = all_data[:len(all_data) / 2]
   test_data = all_data[len(all_data) / 2:]
 
 
   print "Training the predictor..."
-  weights = train(train_data, squared_gradient, squared_loss)
+  weights = train(train_data, squared_gradient, squared_loss, num_rounds = 500,
+    init_step_size = 1e-14, step_size_reduction = 1e-15, regularization_factor =
+    1e-3)
+
   print ''
   print "weights: " + str(weights)
   print ''
