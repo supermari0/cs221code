@@ -45,7 +45,7 @@ def expand_features(features):
   return features + new_features
 
 
-def generate_data(filepath):
+def generate_data(filepath, expandFeatures):
   # First it loads the article from JSON objects in filepath
   # Then it creates the X (feature vector) and Y (num_edits) tuples for each article
   articles = read_articles(filepath)
@@ -66,7 +66,10 @@ def generate_data(filepath):
   for article in articles:
     feature_vector = basic_features(article, options) + token_features(article, options) + \
                      link_features(article, options)
-    feature_vector = [1] + expand_features(feature_vector) # The [1] is a constant factor
+    if expandFeatures:
+      feature_vector = [1] + expand_features(feature_vector)
+    else:
+      feature_vector = [1] + expand_features(feature_vector)
     data.append((feature_vector, article.num_edits()))
   return data
 
@@ -222,7 +225,6 @@ def order(data):
 
 
 def rank(data, item): 
-  
   ranked = sorted(data, key=operator.itemgetter(item))
   return ranked
 
@@ -232,7 +234,7 @@ if __name__ == "__main__":
   #TODO: train and test data token features => same length.....?
   random.seed(42)
   print "Generating data..."
-  all_data = generate_data('train.json')
+  all_data = generate_data('train.json', True)
   train_data = all_data[:len(all_data) / 2]
   test_data = all_data[len(all_data) / 2:]
 
