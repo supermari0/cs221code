@@ -1,1 +1,39 @@
-Code repo for Ryan, Rupa, and Mario's 221 project
+Analyzing Wikipedia
+
+To see the results of the baseline algorithm, run:
+
+python average.py
+
+This program averages the number of edits across the training data and outputs
+the result as the prediction of number of edits for each article in the test
+data.
+
+We print the sum of differences between actual values and predicted values
+(like loss when running regression), the average error as a percentage,
+and the ranking score as a percentage. Average error and ranking score are 
+described in the project writeup.
+
+To see the results of running least squares linear regression with and without
+basis expansion, run:
+
+python regression.py
+
+We print the total loss, average error as a percentage, and the ranking score
+as a percentage.
+
+parser.py was the file we used for parsing our data from the original HTML files
+(Wikipedia articles and data about edits corresponding to each Wikipedia
+article from www.wikichecker.com). Running python parser.py DIRECTORY where
+DIRECTORY is the directory containing these files selects 500 articles from
+DIRECTORY and parses them into train.json and test.json -- JSON files holding
+data we use as features for our training set and test set, respectively. We
+included the train.json and test.json we used while evaluating our project
+rather than the directory we parsed the data from since the directory was very
+large (797.1MB).
+
+article.py defines the Article class. Its constructor takes a JSON string, and
+its methods are used to access the data we described in the Article schema in
+our code for the baseline algorithm and regression.
+
+article-schema.json describes the format we used while parsing data from HTML
+to JSON.

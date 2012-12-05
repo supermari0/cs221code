@@ -112,12 +112,6 @@ def vector_abs(list1):
   return [abs(elem) for elem in list1]
 
 
-def logistic_gradient(features, target, weights): 
-  dot = dot_product(weights, features)
-  denom = 1 + math.exp(-1 * dot * target)
-  coeff = target * (-1 + (1 / denom))
-  return scalar_product(features, coeff)
-
 def squared_loss(features, target, weights):
   margin = dot_product(weights, features) - target
   return 0.5 * margin ** 2
@@ -206,7 +200,6 @@ def test(data, weights, loss_fn, verbose = False):
     percent_losses = vector_abs(percent_losses) # To correctly calculate avg and max
     print "\nTotal Loss: " + str(loss_total)
     print "Average Error: " + str(sum(percent_losses) / len(percent_losses)) + "%"
-    print "Max Error: " + str(max(percent_losses)) + "%"
 
     ranked_targets = rank(tuples, 1)
     ranked_predictions = rank(tuples, 2)
@@ -272,7 +265,7 @@ if __name__ == "__main__":
 
   print "Training the predictor..."
   weights = train(train_data, squared_gradient, squared_loss, num_rounds = 100,
-    init_step_size = 9e-22, step_size_reduction = 0,
+    init_step_size = 9e-22, step_size_reduction = 1e-30,
     regularization_factor = 7)
   test(test_data, weights, squared_loss, True)
   # step size 1e-30

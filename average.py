@@ -7,8 +7,6 @@ def get_num_edits(filename):
   """ Returns a list whose elements are the number of edits for each article in
   the training set. """
   articles = read_articles(filename)
-  # TODO Get number of edits from each article, average, implement fn to find
-  # error on training and test sets.
   numEdits = [article.num_edits() for article in articles]
   return numEdits
 
@@ -47,8 +45,6 @@ def run_average_heuristic():
   print(len(rankedByActualEditPairs))
   rankScore = (float(len(intersectionOfRankPairs)) / len(rankedByActualEditPairs))
 
-  print('Sum of differences between actual and predicted values: ' +
-    str(totalDifference))
   print('Average difference between actual and predicted values: ' +
     str(averageDifference))
   print('Average error: ' + str(averageError) + '%')
