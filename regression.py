@@ -233,7 +233,7 @@ def rank(data, item):
 if __name__ == "__main__":
   #TODO: train and test data token features => same length.....?
   random.seed(42)
-  print "Generating data..."
+  print "Generating data for least squares..."
   all_data = generate_data('train.json', False)
   train_data = all_data[:len(all_data) / 2]
   test_data = all_data[len(all_data) / 2:]
@@ -244,12 +244,25 @@ if __name__ == "__main__":
     init_step_size = 1e-14, step_size_reduction = 1e-15, regularization_factor =
     1e-3)
 
-  print ''
-  print "weights: " + str(weights)
-  print ''
-  print "Testing the predictor..."
+  #print ''
+  #print "weights: " + str(weights)
+  #print ''
+  #print "Testing the predictor..."
+  #test(test_data, weights, squared_loss, True)
+  
+  print "Generating data for least squares with basis expansion..."
+  all_data = generate_data('train.json', True)
+  train_data = all_data[:len(all_data) / 2]
+  test_data = all_data[len(all_data) / 2:]
+
+  print "Training the predictor..."
+  weights = train(train_data, squared_gradient, squared_loss, num_rounds = 100,
+    init_step_size = 9e-22, step_size_reduction = 0,
+    regularization_factor = 7)
   test(test_data, weights, squared_loss, True)
-  print ''
+  # step size 1e-30
+  # step size 9e-22
+  #
   # print weights
   # data = generate_data('WLion.json')
   # weights = train(data, squared_gradient)
