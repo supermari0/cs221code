@@ -140,7 +140,7 @@ def read_articles(filepath):
       articles.append(article)
       articles_appended += 1
       json_string = ""
-      if articles_appended > 50: break # TODO: shorten testing
+      if articles_appended > 100: break # TODO: shorten testing
     else:
       json_string += line
   if len(json_string) > 0: articles.append(Article(json_string)) # Get last article
@@ -148,7 +148,7 @@ def read_articles(filepath):
   return articles
 
 
-def train(data, gradient_fn, loss_fn, num_rounds = 1200, init_step_size = 9e-22, step_size_reduction = 1e-30, regularization_factor = 10):
+def train(data, gradient_fn, loss_fn, num_rounds = 100, init_step_size = 9e-22, step_size_reduction = 1e-30, regularization_factor = 10):
   # squared_loss: num_rounds = 500, init_step_size = 1e-14, step_size_reduction = 1e-15, regularization_factor = 1e-3
   # logistic_loss: num_rounds = 500, init_step_size = 5e-10, step_size_reduction = 1e-10, regularization_factor = 1e-3
   # data is a list of (feature_vector, num_edits) tuples, where feature_vector is a list
@@ -157,7 +157,6 @@ def train(data, gradient_fn, loss_fn, num_rounds = 1200, init_step_size = 9e-22,
   num_features = len(data[0][0])
   weights = [0.0 for i in range(num_features)]
   for i in range(num_rounds):
-    if i % 100 == 0: print "Starting Round " + str(i + 1)
     random.shuffle(data)
     for j in range(len(data)):
       d = data[j]
@@ -167,11 +166,6 @@ def train(data, gradient_fn, loss_fn, num_rounds = 1200, init_step_size = 9e-22,
       update = scalar_product(gradient_fn(feature_vector, num_edits, weights), -1 * step_size)
       regularization = scalar_product(weights, -1 * float(regularization_factor) / len(data))
       weights = vector_sum(weights, vector_sum(update, regularization))
-    if i % 100 == 0:
-      loss = 0
-      for d in data:
-        loss += loss_fn(d[0], d[1], weights)
-      print loss
   return weights
 
 def predict(weights, features):
@@ -264,18 +258,9 @@ if __name__ == "__main__":
 
 
   print "Training the predictor..."
-  weights = train(train_data, squared_gradient, squared_loss, num_rounds = 100,
-    init_step_size = 9e-22, step_size_reduction = 1e-30,
-    regularization_factor = 7)
+  weights = train(train_data, squared_gradient, squared_loss, num_rounds = 500,
+    init_step_size = 5e-23, step_size_reduction = 0,
+    regularization_factor = 3)
   test(test_data, weights, squared_loss, True)
   # step size 1e-30
   # step size 9e-22
-  #
-  # print weights
-  # data = generate_data('WLion.json')
-  # weights = train(data, squared_gradient)
-  # print data
-  # print ''
-  # print weights
-  # for d in data:
-  #   print predict(weights, d[0]), d[1]
